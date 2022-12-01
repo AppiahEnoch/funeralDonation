@@ -166,7 +166,7 @@
                 class="btn-primary w-100"
                 type="button"
               >
-                Add Name <i class="fa fa-user" aria-hidden="true"></i>
+                Name <i class="fa fa-user" aria-hidden="true"></i>
 
               </button>
             </div>
