@@ -17,18 +17,14 @@ try {
   
   
       $return_arr[] = array("item" => $newname);
-  
-  
-  
-  
-  
+
     }
     echo json_encode($return_arr);
   
   
   }
 } catch (\Throwable $th) {
- echo $th
+ echo $th;
 }
 
 $conn->close();
