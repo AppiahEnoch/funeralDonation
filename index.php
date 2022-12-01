@@ -137,7 +137,7 @@
         <form id="form">
           <div class="form-outline mb-2 text-center">
             <h3>
-              Receive Donation1
+              Receive Donation
               <i class="bi bi-cash"></i>
             </h3>
           </div>
@@ -350,7 +350,7 @@
           type: "get",
           dataType: "JSON",
           success: function (response) {
-            alert(response)
+            //alert(response)
             var len = response.length;
 
             try {
