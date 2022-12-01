@@ -79,7 +79,7 @@
               newName: name,
             },
             function (data, status) {
-              alert(status);
+              alert(data);
             }
           );
         });
@@ -241,6 +241,14 @@
           <div style="background-color: aqua" class="modal-footer">
             <button id="btMadd" type="button" class="btn btn-primary">
               Add Name
+            </button>
+            <button
+            id="btMdelete"
+              type="button"
+              class="btn btn-danger"
+              data-bs-dismiss="modal"
+            >
+             Delete <i class="fa fa-trash" aria-hidden="true"></i>
             </button>
             <button
               type="button"

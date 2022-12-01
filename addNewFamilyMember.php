@@ -4,7 +4,7 @@ require_once 'config.php';
 
 
 
-$v1="name";
+$v1="newName";
 
 
 
@@ -90,25 +90,23 @@ function inputsAreCorrect( $arrayOfAllevels) {
 // prepare and bind
 try{
     
-    $sql = "SELECT * FROM familyMember where mName='$newName'";
+    $sql = "SELECT * FROM familyMember where fullname='$newName'";
     $result = mysqli_query($conn, $sql);
     
     if (mysqli_num_rows($result) > 0) {
       // output data of each row
       if($row = mysqli_fetch_assoc($result)) {
     
-        echo "1";
+        echo 0;
+
+        exit();
     
       }
     
     
     
     }
-     else {
-    
-        echo 0;
-     
-        }
+
 
  
 
@@ -119,6 +117,32 @@ catch(Exception $e){
     echo $e;
     
 }
+
+
+
+
+// prepare and bind
+try{
+
+  $stmt = $conn->prepare("INSERT INTO familymember (fullname) VALUES (?)");
+  $stmt->bind_param("s", $newName);
+  
+  
+   $stmt->execute();
+  
+  $stmt->close();
+  $conn->close();
+      
+  }
+  catch(Exception $e){
+  
+  
+    
+  
+     
+      
+  }
+  
 
 
 
