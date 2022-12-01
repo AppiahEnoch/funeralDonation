@@ -66,8 +66,79 @@
 
     <script>
       var nameDel = "";
+      var aeTitle = "";
+      var aeBody = "";
+      var donorAmount = "";
+      var donorName = "";
+      var donorMobile = "";
+      var familyMember = "";
       $(document).ready(function () {
         updateList();
+
+        $("#donarMobile").keyup(function () {
+          var donorMobile = $("#donarMobile").val();
+          if (!isNumber(donorMobile)) {
+            $("#donarMobile").val("");
+          }
+        });
+
+        $("#addDonation").click(function (e) {
+          donorName = $("#donarName").val();
+          donorMobile = $("#donarMobile").val();
+          donorAmount = $("#DonationAmount").val();
+          familyMember = $("#nameList").val();
+
+          if (aeEmpty(donorName)) {
+            aeTitle = "ENTER DONOR'S NAME";
+            aeBody = "ENTER VALID NAME FOR  DONOR.";
+            $("#aeAlertTitle").text(aeTitle);
+            $("#aeAlertBody").text(aeBody);
+            $("#aeAlert").modal("show");
+
+            return;
+          } else if (aeEmpty(donorMobile)) {
+            aeTitle = "ENTER DONOR'S MOBILE";
+            aeBody = "ENTER VALID MOBILE FOR  DONOR.";
+            $("#aeAlertTitle").text(aeTitle);
+            $("#aeAlertBody").text(aeBody);
+            $("#aeAlert").modal("show");
+            return;
+          } else if (aeEmpty(familyMember)) {
+            aeTitle = "CHOOSE FAMILY MEMBER ";
+            aeBody = "SELECT A FAMILY MEMBER NAME";
+            $("#aeAlertTitle").text(aeTitle);
+            $("#aeAlertBody").text(aeBody);
+            $("#aeAlert").modal("show");
+            return;
+          }
+
+          if (familyMember == "To this Family Member") {
+            aeTitle = "CHOOSE FAMILY MEMBER ";
+            aeBody = "SELECT A FAMILY MEMBER NAME";
+            $("#aeAlertTitle").text(aeTitle);
+            $("#aeAlertBody").text(aeBody);
+            $("#aeAlert").modal("show");
+            return;
+          } else if (aeEmpty(donorAmount)) {
+            aeTitle = "ENTER AMOUNT";
+            aeBody = "ENTER VALID AMOUNT TO BE DONATED.";
+            $("#aeAlertTitle").text(aeTitle);
+            $("#aeAlertBody").text(aeBody);
+            $("#aeAlert").modal("show");
+            return;
+          } else if (donorAmount == 0) {
+            aeTitle = "DONATION AMOUNT CANNOT BE ZERO";
+            aeBody = "DONATION AMOUNT MUST BE MORE THAN 0";
+            $("#aeAlertTitle").text(aeTitle);
+            $("#aeAlertBody").text(aeBody);
+            $("#aeAlert").modal("show");
+            return;
+          }
+
+          e.preventDefault();
+
+          insertDonation();
+        });
 
         $("#myMAddNewName").on("click", "#btMdelete", function (e) {
           e.preventDefault();
@@ -89,8 +160,7 @@
             },
             function (data, status) {
               $("#myMAddNewName").modal("hide");
-              location.href="index.php"
-           
+              location.href = "index.php";
             }
           );
         });
@@ -99,10 +169,10 @@
           var e = document.getElementById("nameList");
           var value = e.value;
 
-          if(value=="To this Family Member"){
-            value="";
+          if (value == "To this Family Member") {
+            value = "";
           }
-    
+
           nameDel = $("#tfMaddName").val(value);
           $("#myMAddNewName").modal("show");
         });
@@ -192,7 +262,11 @@
           <!--end  input -->
 
           <div class="form-outline mb-2">
-            <button style="font-weight: bold" class="btn-primary w-100">
+            <button
+              id="addDonation"
+              style="font-weight: bold"
+              class="btn-primary w-100"
+            >
               Add Donation
             </button>
           </div>
@@ -342,6 +416,29 @@
     </div>
 
     <!-- END MODAL -->
+    <!-- Modal HTML -->
+    <div id="aeAlert" class="modal fade" tabindex="-3">
+      <div class="modal-dialog" style="width: 20rem">
+        <div class="modal-content">
+          <div
+            style="background-color: blue; color: white"
+            class="modal-header"
+          >
+            <h5 id="aeAlertTitle" class="modal-title">*****</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div style="background-color: white; color: black" class="modal-body">
+            <h6 id="aeAlertBody">**********</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- END MODAL -->
 
     <script>
       function updateList() {
@@ -373,7 +470,7 @@
                 "font-weight": "bold",
               });
             } catch (error) {
-              alert(error)
+              alert(error);
             }
 
             // var li = response[1].newName;
@@ -382,10 +479,73 @@
           },
 
           error: function (request, status, error) {
-        alert(request.responseText);
-    }
+            alert(request.responseText);
+          },
+        });
+      }
 
+      function aeEmpty(e) {
+        var ee = "";
+        try {
+          ee = e.trim();
+        } catch (error) {
+          return true;
+        }
+        try {
+          switch (e) {
+            case "":
+            case 0:
+            case "0":
+            case null:
+            case false:
+            case undefined:
+              return true;
+            default:
+              return false;
+          }
+        } catch (error) {
+          return true;
+        }
+      }
 
+      function isNumber(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+      }
+
+      function insertDonation() {
+        $.ajax({
+          type: "post",
+          data: {
+            donorName: donorName,
+            donorMobile,
+            donorMobile,
+            donorAmount,
+            donorAmount,
+            familyMember,
+            familyMember,
+          },
+          cache: false,
+          url: "insertDonation.php",
+          dataType: "text",
+          error: function (xhr, status, error) {
+            var err = eval("(" + xhr.responseText + ")");
+            alert(err.Message);
+          },
+
+          success: function (data, status) {
+            aeTitle = "SUCCESS!";
+            aeBody = "DONATION RECORDED SUCCESSFULLY.";
+            $("#aeAlertTitle").text(aeTitle);
+            $("#aeAlertBody").text(aeBody);
+            $("#aeAlert").modal("show");
+
+            $("#aeAlert").on("hidden.bs.modal", function () {
+              location.href = "index.php";
+            });
+
+        
+            return;
+          },
         });
       }
     </script>
