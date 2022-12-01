@@ -350,6 +350,7 @@
           type: "get",
           dataType: "JSON",
           success: function (response) {
+            alert(response)
             var len = response.length;
 
             try {
