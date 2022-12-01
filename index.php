@@ -372,12 +372,20 @@
               $("option").css({
                 "font-weight": "bold",
               });
-            } catch (error) {}
+            } catch (error) {
+              alert(error)
+            }
 
             // var li = response[1].newName;
 
             return;
           },
+
+          error: function (request, status, error) {
+        alert(request.responseText);
+    }
+
+
         });
       }
     </script>
