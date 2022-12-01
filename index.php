@@ -137,7 +137,7 @@
         <form id="form">
           <div class="form-outline mb-2 text-center">
             <h3>
-              Receive Donation
+              Receive Donation1
               <i class="bi bi-cash"></i>
             </h3>
           </div>
