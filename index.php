@@ -109,7 +109,18 @@
               type="text"
               id="donarName"
               class="form-control"
-              placeholder="Donator name"
+              placeholder="Donor's name"
+              style="font-weight: bold; color: black; background-color: white"
+            />
+          </div>
+          <div class="form-outline mb-2">
+            <input
+              required
+              type="tel"
+              pattern="[0-9]{10}"
+              id="donarMobile"
+              class="form-control"
+              placeholder="Donor's Mobile"
               style="font-weight: bold; color: black; background-color: white"
             />
           </div>
@@ -156,7 +167,6 @@
                 type="button"
               >
                 Edit<i class="fa fa-pencil" aria-hidden="true"></i>
-
               </button>
             </div>
             <div class="col-6">
@@ -167,7 +177,6 @@
                 type="button"
               >
                 Name <i class="fa fa-user" aria-hidden="true"></i>
-
               </button>
             </div>
           </div>
@@ -211,7 +220,9 @@
             <div class="col d-flex justify-content-start">
               <!-- Checkbox -->
               <div class="form-check justify-content-lg-start">
-                <a style="font-weight: bold; color: blue" href="expense.html"
+                <a
+                  style="font-weight: bold; color: blue; visibility: hidden"
+                  href="expense.html"
                   >Record Expenditure?</a
                 >
                 <br />
@@ -243,12 +254,12 @@
               Add Name
             </button>
             <button
-            id="btMdelete"
+              id="btMdelete"
               type="button"
               class="btn btn-danger"
               data-bs-dismiss="modal"
             >
-             Delete <i class="fa fa-trash" aria-hidden="true"></i>
+              Delete <i class="fa fa-trash" aria-hidden="true"></i>
             </button>
             <button
               type="button"
