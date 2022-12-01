@@ -87,6 +87,7 @@
           <!--  input -->
           <div class="form-outline mb-2">
             <input
+            required
               type="text"
               id="donarName"
               class="form-control"
@@ -99,6 +100,7 @@
           <!--  input -->
           <div class="form-outline mb-2">
             <input
+            required
               type="text"
               id="familyMember"
               class="form-control"
@@ -110,6 +112,7 @@
           <!--  input -->
           <div class="form-outline mb-2">
             <input
+            required
               type="text"
               id="DonationAmount"
               class="form-control"
