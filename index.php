@@ -155,7 +155,8 @@
                 class="btn-primary w-100"
                 type="button"
               >
-                Edit
+                Edit<i class="fa fa-pencil" aria-hidden="true"></i>
+
               </button>
             </div>
             <div class="col-6">
@@ -165,7 +166,8 @@
                 class="btn-primary w-100"
                 type="button"
               >
-                Add Name
+                Add Name <i class="fa fa-user" aria-hidden="true"></i>
+
               </button>
             </div>
           </div>
@@ -234,7 +236,7 @@
           </div>
           <div class="modal-body">
             <label for="resendStaffID">Enter Name</label>
-            <input id="tfMaddName" type="text" />
+            <input id="tfMaddName" type="text" placeholder="New Name" />
           </div>
           <div style="background-color: aqua" class="modal-footer">
             <button id="btMadd" type="button" class="btn btn-primary">
