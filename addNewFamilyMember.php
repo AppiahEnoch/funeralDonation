@@ -129,6 +129,8 @@ try{
   
   
    $stmt->execute();
+
+   echo 1;
   
   $stmt->close();
   $conn->close();

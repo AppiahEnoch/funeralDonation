@@ -65,12 +65,50 @@
     </style>
 
     <script>
+      var nameDel = "";
       $(document).ready(function () {
+        updateList();
+
+        $("#myMAddNewName").on("click", "#btMdelete", function (e) {
+          e.preventDefault();
+          nameDel = $("#tfMaddName").val();
+
+          $("#nametodelete").text(nameDel);
+
+          $("#myMAddDelete").modal("show");
+        });
+
+        $("#myMAddDelete").on("click", "#btMContinue", function (e) {
+          e.preventDefault();
+          $("#myMAddDelete").modal("hide");
+
+          $.post(
+            "deleteMember.php",
+            {
+              nameToDelete: nameDel,
+            },
+            function (data, status) {
+              $("#myMAddNewName").modal("hide");
+              location.href="index.php"
+           
+            }
+          );
+        });
+
         $("#btAddNewName").click(function () {
+          var e = document.getElementById("nameList");
+          var value = e.value;
+
+          if(value=="To this Family Member"){
+            value="";
+          }
+    
+          nameDel = $("#tfMaddName").val(value);
           $("#myMAddNewName").modal("show");
         });
 
         $("#myMAddNewName").on("click", "#btMadd", function (e) {
+          e.preventDefault();
           var name = $("#tfMaddName").val();
 
           $.post(
@@ -79,7 +117,9 @@
               newName: name,
             },
             function (data, status) {
-              alert(data);
+              $("#myMAddNewName").modal("hide");
+
+              updateList();
             }
           );
         });
@@ -134,10 +174,6 @@
               class="form-select w-100"
             >
               <option selected>To this Family Member</option>
-              <option style="font-weight: bold">Mr Oliver</option>
-              <option style="font-weight: bold">Mr Osei</option>
-              <option style="font-weight: bold">Madam Akosuah</option>
-              <option style="font-weight: bold">Miss Grace</option>
             </select>
           </div>
           <!--end  input -->
@@ -145,7 +181,8 @@
           <div class="form-outline mb-2">
             <input
               required
-              type="text"
+              type="number"
+              min="0"
               id="DonationAmount"
               class="form-control"
               placeholder="Donation Amount (GHS)"
@@ -219,14 +256,6 @@
           <div class="row mb-4">
             <div class="col d-flex justify-content-start">
               <!-- Checkbox -->
-              <div class="form-check justify-content-lg-start">
-                <a
-                  style="font-weight: bold; color: blue; visibility: hidden"
-                  href="expense.html"
-                  >Record Expenditure?</a
-                >
-                <br />
-              </div>
             </div>
           </div>
         </form>
@@ -238,7 +267,7 @@
       <div class="modal-dialog" style="width: 20rem">
         <div class="modal-content">
           <div style="background-color: aqua" class="modal-header">
-            <h5 class="modal-title">Add New Name</h5>
+            <h5 class="modal-title">Add New Name to List</h5>
             <button
               type="button"
               class="btn-close"
@@ -246,19 +275,14 @@
             ></button>
           </div>
           <div class="modal-body">
-            <label for="resendStaffID">Enter Name</label>
+            <label for="tfMaddName">Enter Name</label>
             <input id="tfMaddName" type="text" placeholder="New Name" />
           </div>
           <div style="background-color: aqua" class="modal-footer">
             <button id="btMadd" type="button" class="btn btn-primary">
               Add Name
             </button>
-            <button
-              id="btMdelete"
-              type="button"
-              class="btn btn-danger"
-              data-bs-dismiss="modal"
-            >
+            <button id="btMdelete" type="button" class="btn btn-danger">
               Delete <i class="fa fa-trash" aria-hidden="true"></i>
             </button>
             <button
@@ -274,6 +298,88 @@
     </div>
 
     <!-- END MODAL -->
+
+    <!-- Modal HTML -->
+    <div id="myMAddDelete" class="modal fade" tabindex="-3">
+      <div class="modal-dialog" style="width: 20rem">
+        <div class="modal-content">
+          <div style="background-color: aqua" class="modal-header">
+            <h5 class="modal-title">CONFIRM DELETION</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <h6 id="nametodelete" style="color: red; background-color: white">
+              **********
+            </h6>
+            <h6>
+              DO YOU WANT TO DELETE THIS FAMILY MEMBER?
+
+              <h6>ALL DATA FOR THIS MEMBER WILL BE REMOVED.</h6>
+              <span style="font-style: italic; text-decoration: underline"
+                >NB: you cannot Undo this operation</span
+              >
+            </h6>
+          </div>
+          <div style="background-color: aqua" class="modal-footer">
+            <button id="btMContinue" type="button" class="btn btn-danger">
+              Delete <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+            <button
+              id="btMdelete"
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- END MODAL -->
+
+    <script>
+      function updateList() {
+        $.ajax({
+          url: "selectMemberList.php",
+          type: "get",
+          dataType: "JSON",
+          success: function (response) {
+            var len = response.length;
+
+            try {
+              $("#nameList")
+                .empty()
+                .append(
+                  '<option selected="selected" >To this Family Member</option>'
+                );
+
+              for (let i = 1; i < len; i++) {
+                var nam = response[i].item;
+
+                var o = new Option(nam);
+                /// jquerify the DOM object 'o' so we can use the html method
+                $(o).html(nam);
+                $("#nameList").append(o);
+              }
+
+              $("option").css({
+                "font-weight": "bold",
+              });
+            } catch (error) {}
+
+            // var li = response[1].newName;
+
+            return;
+          },
+        });
+      }
+    </script>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
