@@ -3,7 +3,7 @@
 $hostname = "localhost";
 $username = "root";
 $password = "";
-$database = "funeralDonation";
+$database = "funeraldonation";
 $port = "63947";
 $conn = mysqli_connect($hostname, $username, $password, $database,$port) or die("Database connection failed");
 
@@ -20,7 +20,7 @@ $conn = mysqli_connect($hostname, $username, $password, $database) or die("Datab
 
 // railway
 
-//*
+/*
 
 $hostname = "containers-us-west-98.railway.app";
 $username = "root";
