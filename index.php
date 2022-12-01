@@ -76,9 +76,17 @@
         updateList();
 
         $("#donarMobile").keyup(function () {
-          var donorMobile = $("#donarMobile").val();
+          donorMobile = $("#donarMobile").val();
           if (!isNumber(donorMobile)) {
             $("#donarMobile").val("");
+            return
+          }
+
+          
+          var z=donorMobile.charAt(0);
+          if(z!=0){
+            $("#donarMobile").val("0"+donorMobile);
+
           }
         });
 
@@ -87,6 +95,8 @@
           donorMobile = $("#donarMobile").val();
           donorAmount = $("#DonationAmount").val();
           familyMember = $("#nameList").val();
+
+
 
           if (aeEmpty(donorName)) {
             aeTitle = "ENTER DONOR'S NAME";
