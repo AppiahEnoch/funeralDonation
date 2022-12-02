@@ -3,6 +3,12 @@ require_once 'config.php';
 
 
 $memberList[0]="";
+$grandDonors=0;
+$grandTotalDonation=0;
+
+
+$sumTotal=0;
+$numberOfDonor=0;
 
 $ctr=1;
 
@@ -23,9 +29,9 @@ if (mysqli_num_rows($result) > 0) {
 }
 
 $size=sizeof($memberList);
-echo $size;
+//echo  $memberList[$size-1];
 
-exit();
+//exit();
 
 
 
@@ -42,53 +48,159 @@ $pdf = new FPDF();
 $pdf->AddPage();
 // Set the font for the text
 $pdf->SetFont('Arial', 'B', 10);
-
-
-
-$sql = "SELECT * FROM authentication WHERE level=?";
-$stmt = $conn->prepare($sql); 
-$stmt->bind_param("s", $level);
-$stmt->execute();
-$result = $stmt->get_result();
 $pdf->Cell(100,6,date("l jS \of F Y h:i:s A"));
 $pdf->Ln();
 $pdf->Ln();
 $pdf->SetFont('Arial', 'B', 18);
-$pdf->Cell(100,6,"LEVEL ".$level." AUTHENTICATION CODES");
+$pdf->Cell(100,6,"FUNERAL DONATIONS REPORT");
 
 $pdf->Ln();
 $pdf->Ln();
 $pdf->SetFont('Arial', 'B', 12);
-while ($row = $result->fetch_assoc()) {
-    $staffID= $row["staffID"];
-    $code= $row["code"];
-
-    
-    $pdf->Cell(80,6,$staffID,1,0);
-    $pdf->Cell(80,6,$code,1,0);
-    $pdf->Ln();
 
 
-  
-  
-  
-   
-   
-}
+foreach ($memberList as $value) {
 
-$pdf->Output('F', 'AUTHENTICATION_CODES.pdf');
+    selectData($value);
 
-echo $code;
+    $grandDonors=  $grandDonors+ $numberOfDonor;
+    $grandTotalDonation=$grandTotalDonation+$sumTotal;
+
+  }
 
 
+$pdf->Ln();
+$pdf->Ln();
+$pdf->Ln();
+$pdf->Cell(100,6,"SUMMARY OF ALL DONATIONS");
+$pdf->Ln();
+$pdf->Cell(100,6,"**************************************");
+$pdf->Ln();
 
 
+$pdf->Ln();
+$pdf->Cell(50,6,"TOTAL NUMBER OF DONORS:");
+$pdf->Ln();
+$pdf->Cell(50,6,"    ".$grandDonors."  DONORS");
+$pdf->Ln();
+$pdf->Ln();
+$pdf->Ln();
 
 
+$pdf->Cell(50,6," GRAND TOTAL DONATION:");
+$pdf->Ln();
+$pdf->Cell(50,6,"   GHS ".$grandTotalDonation);
+$pdf->Ln();
+
+  $pdf->Output('F', 'DONATION_REPORT.pdf');
 
 
 
 $conn->close();
+
+
+
+function selectData($fname){
+    global $pdf,$conn,$sumTotal,$numberOfDonor;
+
+    $sumTotal=0;
+    $numberOfDonor=0;
+
+$sql = "SELECT * FROM donation where familyMember='$fname'";
+$result = mysqli_query($conn, $sql);
+if (mysqli_num_rows($result) > 0) {
+  // output data of each row
+
+  $pdf->SetFont('Times', 'BIU');
+  $pdf->Cell(50,6,$fname);
+  $pdf->Ln();
+  $pdf->SetFont('Arial', 'B', 12);
+
+ 
+  $pdf->Cell(30,6,"ID",1,0);
+  $pdf->Cell(30,6,"DONOR",1,0);
+  $pdf->Cell(30,6,"MOBILE",1,0);
+  $pdf->Cell(30,6,"AMOUNT",1,0);
+  $pdf->Cell(30,6,"MEMBER",1,0);
+  $pdf->Cell(45,6,"DATE",1,0);
+  $pdf->Ln();
+
+
+
+  while($row = mysqli_fetch_assoc($result)) {
+
+    $donorName=$row["donor"];
+    $donorMobile=$row["donormobile"];
+    $donorAmount=$row["amount"];
+    $familyMember=$row["familyMember"];
+    $donationDate=$row["donationDate"];
+    $id=$row["id"];
+
+    try {
+      $t=(float) $donorAmount;
+      $sumTotal= $sumTotal+$t;
+    } catch (Throwable $th) {
+        //throw $th;
+    }
+    $numberOfDonor++;
+
+    
+
+
+
+    $pdf->Cell(30,6,$id,1,0);
+    $pdf->Cell(30,6,$donorName,1,0);
+    $pdf->Cell(30,6,$donorMobile,1,0);
+    $pdf->Cell(30,6,$donorAmount,1,0);
+    $pdf->Cell(30,6,$familyMember,1,0);
+    $pdf->Cell(45,6,$donationDate,1,0);
+    $pdf->Ln();
+  
+
+
+
+  }
+  $pdf->Ln();
+  $pdf->Cell(50,6,"NUMBER OF DONORS:");
+  $pdf->Cell(50,6,$numberOfDonor);
+  $pdf->Ln();
+
+
+  $pdf->Cell(50,6,"TOTAL DONATION:");
+  $pdf->Cell(50,6,$sumTotal);
+  $pdf->Ln();
+
+
+  $pdf->Cell(50,6,$fname);
+  $pdf->Ln();
+  $pdf->Cell(100,6,"**********************************************************************************************************");
+  $pdf->Ln();
+  $pdf->Ln();
+  $pdf->Ln();
+
+ 
+
+  
+
+
+
+ 
+  
+
+
+
+
+
+
+
+ 
+
+
+
+
+}
+
+}
 
 
 

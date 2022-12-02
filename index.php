@@ -88,7 +88,11 @@
           },
 
           success: function (data,status) {
-            alert(data);
+            window.location.href = 'DONATION_REPORT.pdf';
+
+
+
+     
           },
         });
 
@@ -103,6 +107,7 @@
 
 
         $("#btSytemReport").click(function(){
+          generateSystemReport();
 
      
         })
