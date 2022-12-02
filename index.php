@@ -356,17 +356,20 @@
 
           <h5>
             Received Today
-            <span style="text-decoration: underline" id="received_today"></span>
+
             <span style="font-size: 5r3m">
               &nbsp; <span style="font-size: small">GHS</span></span
             >
+            <span style="text-decoration: underline" id="received_today"></span>
+         
           </h5>
           <h5>
             Total received
-            <span style="text-decoration: underline" id="total_received"></span>
             <span style="font-size: 5r3m">
               &nbsp; <span style="font-size: small">GHS</span></span
             >
+            <span style="text-decoration: underline" id="total_received"></span>
+   
           </h5>
 
           <!-- 2 column grid layout for inline styling -->
