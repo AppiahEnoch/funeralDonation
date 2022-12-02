@@ -5,6 +5,10 @@ require_once 'config.php';
 $memberList[0]="";
 $grandDonors=0;
 $grandTotalDonation=0;
+$subs=10;
+$subsWant=9;
+
+
 
 
 $sumTotal=0;
@@ -56,7 +60,7 @@ $pdf->Cell(100,6,"FUNERAL DONATIONS REPORT");
 
 $pdf->Ln();
 $pdf->Ln();
-$pdf->SetFont('Arial', 'B', 12);
+$pdf->SetFont('Arial', 'B', 10);
 
 
 foreach ($memberList as $value) {
@@ -101,7 +105,7 @@ $conn->close();
 
 
 function selectData($fname){
-    global $pdf,$conn,$sumTotal,$numberOfDonor;
+    global $pdf,$conn,$sumTotal,$numberOfDonor,$subs,$subsWant;
 
     $sumTotal=0;
     $numberOfDonor=0;
@@ -143,16 +147,27 @@ if (mysqli_num_rows($result) > 0) {
         //throw $th;
     }
     $numberOfDonor++;
+    $shortDonor=$donorName;
+    $shortMember=$familyMember;
 
+    if(strlen($donorName)>$subs){
+        $shortDonor=substr($donorName,0,$subsWant);
+ 
+    }
+    
+    if(strlen($familyMember)>$subs){
+        $shortMember=substr($familyMember,0,$subsWant);
+
+    }
     
 
 
 
     $pdf->Cell(30,6,$id,1,0);
-    $pdf->Cell(30,6,$donorName,1,0);
+    $pdf->Cell(30,6,$shortDonor,1,0);
     $pdf->Cell(30,6,$donorMobile,1,0);
     $pdf->Cell(30,6,$donorAmount,1,0);
-    $pdf->Cell(30,6,$familyMember,1,0);
+    $pdf->Cell(30,6,$shortMember,1,0);
     $pdf->Cell(45,6,$donationDate,1,0);
     $pdf->Ln();
   
