@@ -50,13 +50,15 @@
         font-family: arial, sans-serif;
 
         width: 100%;
+      
       }
 
       td,
       th {
         border: 1px solid #dddddd;
         text-align: left;
-        padding: 8px;
+        padding: 1px;
+        height: .5rem;
       }
 
       tr {
@@ -150,15 +152,19 @@
       <!-- Header -->
 
       <!-- First Photo Grid-->
-      <div class="w3-row-padding w3-aqua">
+      <div class="w3-row w3-aqua">
 
         <a href="index.php" class="w3-button w3-deep-purple"> GO HOME  <i class="fa fa-home" aria-hidden="true"></i>
         </a>
-        <div class="w3-container w3-margin">
-          <div class="w3-container">
-            <h4>
-              <strong>EDIT DONATIONS</strong>
-            </h4>
+        <h4>
+          <strong>EDIT DONATIONS</strong>
+        </h4>
+
+     
+
+
+
+       
             <button style="visibility: hidden;" id="btEdit" class="w3-button w3-deep-purple">
               Edit
               <i class="fa fa-pencil" aria-hidden="true"></i>
@@ -171,7 +177,9 @@
             </div>
 
             <div class="w3-container"></div>
+            <br>
             <button id="btDelrow" class="w3-button w3-deep-purple">
+              
               <i class="fa fa-trash" aria-hidden="true"></i> Delete Selected
             </button>
     
@@ -179,8 +187,7 @@
               <i class="fa fa-floppy-o" aria-hidden="true"></i>
               Save
             </button>
-          </div>
-        </div>
+   
       </div>
 
       <!-- BEGIN AEMODEL-->
