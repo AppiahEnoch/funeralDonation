@@ -74,29 +74,28 @@
       var familyMember = "";
       $(document).ready(function () {
         updateList();
+        getTotalDonation();
 
-
-        getTotalDonation() ;
+        $("select").on("change", function (e) {
+          var optionSelected = $("option:selected", this);
+          var valueSelected = this.value;
+        });
 
         $("#donarMobile").keyup(function () {
           donorMobile = $("#donarMobile").val();
           if (!isNumber(donorMobile)) {
             $("#donarMobile").val("");
-            return
+            return;
           }
 
-          
-          var z=donorMobile.charAt(0);
-          var nn=donorMobile.length;
-          if(nn>10){
-            var s=donorMobile.substring(0, nn-1);
+          var z = donorMobile.charAt(0);
+          var nn = donorMobile.length;
+          if (nn > 10) {
+            var s = donorMobile.substring(0, nn - 1);
             $("#donarMobile").val(s);
-
-
           }
-          if(z!=0){
-            $("#donarMobile").val("0"+donorMobile);
-
+          if (z != 0) {
+            $("#donarMobile").val("0" + donorMobile);
           }
         });
 
@@ -105,8 +104,6 @@
           donorMobile = $("#donarMobile").val();
           donorAmount = $("#DonationAmount").val();
           familyMember = $("#nameList").val();
-
-
 
           if (aeEmpty(donorName)) {
             aeTitle = "ENTER DONOR'S NAME";
@@ -123,22 +120,14 @@
             $("#aeAlertBody").text(aeBody);
             $("#aeAlert").modal("show");
             return;
-          } 
-           else if ((donorMobile.length!=10)) {
+          } else if (donorMobile.length != 10) {
             aeTitle = "WRONG DONOR MOBILE";
             aeBody = "ENTER VALID MOBILE FOR  DONOR.";
             $("#aeAlertTitle").text(aeTitle);
             $("#aeAlertBody").text(aeBody);
             $("#aeAlert").modal("show");
             return;
-          } 
-          
-          
-          
-          
-          
-          
-          else if (aeEmpty(familyMember)) {
+          } else if (aeEmpty(familyMember)) {
             aeTitle = "CHOOSE FAMILY MEMBER ";
             aeBody = "SELECT A FAMILY MEMBER NAME";
             $("#aeAlertTitle").text(aeTitle);
@@ -308,12 +297,12 @@
           <div class="row">
             <div class="col-6">
               <button
-              onclick="editDon()"
+                onclick="editDon()"
                 style="font-weight: bold"
                 class="btn-primary w-100"
                 type="button"
               >
-                Edit<i class="fa fa-pencil" aria-hidden="true"></i>
+                View<i class="fa fa-pencil" aria-hidden="true"></i>
               </button>
             </div>
             <div class="col-6">
@@ -357,16 +346,19 @@
 
           <hr />
 
-          <h5 >
-            
+          <h5>
             Received Today
-            <span  style="text-decoration: underline;" id="received_today"></span>
-            <span style="font-size: 5r3m">  &nbsp; <span style="font-size:small ;">GHS</span></span>
+            <span style="text-decoration: underline" id="received_today"></span>
+            <span style="font-size: 5r3m">
+              &nbsp; <span style="font-size: small">GHS</span></span
+            >
           </h5>
-          <h5 >
+          <h5>
             Total received
-            <span style="text-decoration: underline;" id="total_received"></span>
-            <span style="font-size: 5r3m">  &nbsp; <span style="font-size:small ;">GHS</span></span></span>
+            <span style="text-decoration: underline" id="total_received"></span>
+            <span style="font-size: 5r3m">
+              &nbsp; <span style="font-size: small">GHS</span></span
+            >
           </h5>
 
           <!-- 2 column grid layout for inline styling -->
@@ -485,9 +477,6 @@
     <!-- END MODAL -->
 
     <script>
-
-
-
       function updateList() {
         $.ajax({
           url: "selectMemberList.php",
@@ -590,13 +579,10 @@
               location.href = "index.php";
             });
 
-        
             return;
           },
         });
       }
-
-      
 
       function getTotalDonation() {
         $.ajax({
@@ -610,32 +596,24 @@
           },
 
           success: function (data, status) {
+            var output = data.split("|");
 
-            var output=data.split("|");
-
-            var total_today=output[0];
-            var total_All=output[1];
+            var total_today = output[0];
+            var total_All = output[1];
 
             $("#received_today").text(total_today);
             $("#total_received").text(total_All);
 
+            // alert(total_today+" "+total_All);
 
-           // alert(total_today+" "+total_All);
-
-    
-
-        
             return;
           },
         });
       }
 
-
-      function editDon(){
-        location.replace("editDonation.html")
+      function editDon() {
+        location.replace("editDonation.html");
       }
-
-
     </script>
 
     <script

@@ -50,7 +50,6 @@
         font-family: arial, sans-serif;
 
         width: 100%;
-      
       }
 
       td,
@@ -58,7 +57,7 @@
         border: 1px solid #dddddd;
         text-align: left;
         padding: 1px;
-        height: .5rem;
+        height: 0.5rem;
       }
 
       tr {
@@ -88,60 +87,55 @@
         padding: 1rem;
       }
 
-      .highlight { background-color: #8540F5; color:white; font-weight: bold; }
+      .highlight {
+        background-color: #8540f5;
+        color: white;
+        font-weight: bold;
+      }
     </style>
   </head>
   <body class="w3-aqua w3-content" style="max-width: 1600px">
     <script>
-
-      var selectedData="";
+      var selectedData = "";
 
       function showDeleteAlert() {
         deleteSelectedData();
 
         location.reload();
-}
+      }
 
       $(document).ready(function () {
         reloadTable();
+        updateList();
+      
 
+        $("select").on("change", function (e) {
+          var optionSelected = $("option:selected", this);
+          var valueSelected = this.value;
 
-       
-
-   
-       
-    
-
-
-        $("#btDelrow").click(function(){
-          document.getElementById('aeYesNo').style.display='block'
-        //  deleteSelectedData();
-
-        })
+          $("#total_contribution").text(0);
+          reloadTable2(valueSelected);
 
 
 
 
+         
+        });
 
-
-
-
-
+        $("#btDelrow").click(function () {
+          document.getElementById("aeYesNo").style.display = "block";
+          //  deleteSelectedData();
+        });
 
         $("#tbBasicInfo ").on("click", "tr", function () {
           var selected = $(this).hasClass("highlight");
           $("#tbBasicInfo tr").removeClass("highlight");
-          if (!selected){
+          if (!selected) {
             $(this).addClass("highlight");
           }
 
-        selectedData=$(this).children().closest("td").html();
-
+          selectedData = $(this).children().closest("td").html();
         });
-
-
-
-
       });
     </script>
 
@@ -153,41 +147,55 @@
 
       <!-- First Photo Grid-->
       <div class="w3-row w3-aqua">
-
-        <a href="index.php" class="w3-button w3-deep-purple"> GO HOME  <i class="fa fa-home" aria-hidden="true"></i>
+        <a href="index.php" class="w3-button w3-deep-purple">
+          GO HOME <i class="fa fa-home" aria-hidden="true"></i>
         </a>
         <h4>
           <strong>EDIT DONATIONS</strong>
         </h4>
+        <div class="w3-row">
+          <select
+            id="nameList"
+            style="font-weight: bold"
+            class="form-select w-100"
+          >
+            <option selected>Select Family Member</option>
+          </select>
+        </div>
 
-     
+        <button
+          style="visibility: hidden"
+          id="btEdit"
+          class="w3-button w3-deep-purple"
+        >
+          Edit
+          <i class="fa fa-pencil" aria-hidden="true"></i>
+        </button>
+        <div class="w3-card">
+          <table id="tbBasicInfo" style="width: 100%">
+            <!-- Put <thead>, <tbody>, and <tr>'s here! -->
+            <tbody id="tbB"></tbody>
+          </table>
+        </div>
 
+        <div class="w3-container">
+          <label  style="font-weight:bold ;color:black ; font-size: 1.5rem;"> TOTAL DONATION (GHS)</label>
+          <label  id="total_contribution" style=" margin-left: 1rem ;font-weight:bold ;color: black ; font-size: 1.5rem;">0</label>
+        
+        </div>
+        <br />
+        <button id="btDelrow" class="w3-button w3-deep-purple">
+          <i class="fa fa-trash" aria-hidden="true"></i> Delete Selected
+        </button>
 
-
-       
-            <button style="visibility: hidden;" id="btEdit" class="w3-button w3-deep-purple">
-              Edit
-              <i class="fa fa-pencil" aria-hidden="true"></i>
-            </button>
-            <div class="w3-card">
-              <table id="tbBasicInfo" style="width: 100%">
-                <!-- Put <thead>, <tbody>, and <tr>'s here! -->
-                <tbody id="tbB"></tbody>
-              </table>
-            </div>
-
-            <div class="w3-container"></div>
-            <br>
-            <button id="btDelrow" class="w3-button w3-deep-purple">
-              
-              <i class="fa fa-trash" aria-hidden="true"></i> Delete Selected
-            </button>
-    
-            <button style="visibility: hidden;" id="btSaveEdit" class="w3-button w3-deep-purple">
-              <i class="fa fa-floppy-o" aria-hidden="true"></i>
-              Save
-            </button>
-   
+        <button
+          style="visibility: hidden"
+          id="btSaveEdit"
+          class="w3-button w3-deep-purple"
+        >
+          <i class="fa fa-floppy-o" aria-hidden="true"></i>
+          Save
+        </button>
       </div>
 
       <!-- BEGIN AEMODEL-->
@@ -206,46 +214,40 @@
       <!-- END AEMODEL-->
     </div>
 
+    <!-- BEGIN AEMODEL-->
+    <div id="aeYesNo" class="w3-modal">
+      <div class="w3-modal-content">
+        <header class="w3-container w3-deep-purple">
+          <span
+            onclick="document.getElementById('aeYesNo').style.display='none'"
+            class="w3-button w3-display-topright"
+            >&times;</span
+          >
+          <h3 id="aeMtext">DO YOU WANT TO DELETE THE SELECTED RECORD?</h3>
+        </header>
 
-
-          <!-- BEGIN AEMODEL-->
-          <div id="aeYesNo" class="w3-modal">
-            <div class="w3-modal-content">
-              <header class="w3-container w3-deep-purple">
-                <span
-                  onclick="document.getElementById('aeYesNo').style.display='none'"
-                  class="w3-button w3-display-topright"
-                  >&times;</span
-                >
-                <h3  id="aeMtext">DO YOU WANT TO DELETE THE SELECTED RECORD?</h3>
-              </header>
-
-
-              <footer class="w3-container w3-deep-purple">
-                <button
+        <footer class="w3-container w3-deep-purple">
+          <button
             onclick="showDeleteAlert()"
-                id="btMDeleteRow"
-                type="button"
-                class="w3-button w3-deep-purple"
-              
-              >
-              Delete
-              </button>
+            id="btMDeleteRow"
+            type="button"
+            class="w3-button w3-deep-purple"
+          >
+            Delete
+          </button>
 
-              <button
-      
-              id="btMdelete"
-              type="button"
-              class="w3-button w3-deep-purple"
-              onclick="document.getElementById('aeYesNo').style.display='none'"
-            >
-             Cancel
-            </button>
-              
-              </footer>
-            </div>
-          </div>
-          <!-- END AEMODEL-->
+          <button
+            id="btMdelete"
+            type="button"
+            class="w3-button w3-deep-purple"
+            onclick="document.getElementById('aeYesNo').style.display='none'"
+          >
+            Cancel
+          </button>
+        </footer>
+      </div>
+    </div>
+    <!-- END AEMODEL-->
 
     <!--BEGIN RESET PASSWORD MODEL-->
 
@@ -440,16 +442,11 @@
             alert(request.responseText);
           },
         });
-
-
-
-     
       }
 
-      function reloadTable(){
-        
-
-
+      function reloadTable() {
+        sum=0;
+        $('table tbody').empty();
         $("#tbB").append("<th>#</th>");
         $("#tbB").append("<th> Donor</th>");
         $("#tbB").append("<th> Mobile</th>");
@@ -477,6 +474,17 @@
               var member = response[i].member;
               var time = response[i].doDate;
 
+
+              
+              try {
+                var v2 = parseFloat(amount);
+              sum=sum+v2;
+                
+              } catch (error) {
+                alert(error)
+                
+              }
+
               $("#tbB").append(
                 "<tr><td>" +
                   id +
@@ -494,6 +502,8 @@
               );
             }
 
+            $("#total_contribution").text(sum);
+
             $("#btEdit").click(function () {
               $("tr td").attr("contentEditable", "true");
             });
@@ -504,18 +514,85 @@
             alert(err.Message);
           },
         });
+      }
+      var sum=0;
+      function reloadTable2(newName) {
+        sum=0;
+        $('table tbody').empty();
+        $("#tbB").append("<th>#</th>");
+        $("#tbB").append("<th> Donor</th>");
+        $("#tbB").append("<th> Mobile</th>");
+        $("#tbB").append("<th> Amount</th>");
+        $("#tbB").append("<th> Family Member</th>");
+        $("#tbB").append("<th> Date</th>");
 
-        
+        // $('#tbB').append('<tr><td>12</td> <td>12</td> <td>12</td> <td>12</td> <td>12</td> </tr>');
+
+        $("th").css({ "background-color": "blue", color: "white" });
+
+        $.ajax({
+          url: "selectMemberDonation.php",
+          type: "get",
+          dataType: "JSON",
+          data:{memberName:newName},
+          success: function (response) {
+            var len = response.length;
+            //  alert(len);
+
           
-        }
 
+            for (let i = 1; i < len; i++) {
+              var id = response[i].id;
+              var name = response[i].donor;
+              var mobile = response[i].mobile;
+              var amount = response[i].amount;
+              var member = response[i].member;
+              var time = response[i].doDate;
 
+              try {
+                var v2 = parseFloat(amount);
+              sum=sum+v2;
+                
+              } catch (error) {
+                alert(error)
+              }
 
-        function deleteSelectedData(){
-          $.ajax({
+              $("#tbB").append(
+                "<tr><td>" +
+                  id +
+                  "</td> <td>" +
+                  name +
+                  "</td> <td>" +
+                  mobile +
+                  "</td> <td>" +
+                  amount +
+                  "</td> <td>" +
+                  member +
+                  "</td> <td>" +
+                  time +
+                  "</td> </tr>"
+              );
+            }
+
+            $("#total_contribution").text(sum);
+
+            $("#btEdit").click(function () {
+              $("tr td").attr("contentEditable", "true");
+            });
+          },
+
+          error: function (xhr, status, error) {
+            var err = eval("(" + xhr.responseText + ")");
+            alert(err.Message);
+          },
+        });
+      }
+
+      function deleteSelectedData() {
+        $.ajax({
           type: "post",
           data: {
-            id: selectedData
+            id: selectedData,
           },
           cache: false,
           url: "deleteselectedData.php",
@@ -525,12 +602,54 @@
             alert(err.Message);
           },
 
-          success: function (data,status) {
-           // alert(data);
+          success: function (data, status) {
+            // alert(data);
           },
         });
 
+        function updateList() {
+          $.ajax({
+            url: "selectMemberList.php",
+            type: "get",
+            dataType: "JSON",
+            success: function (response) {
+              //alert(response)
+              var len = response.length;
+
+              try {
+                $("#nameList")
+                  .empty()
+                  .append(
+                    '<option selected="selected" >To this Family Member</option>'
+                  );
+
+                for (let i = 1; i < len; i++) {
+                  var nam = response[i].item;
+
+                  var o = new Option(nam);
+                  /// jquerify the DOM object 'o' so we can use the html method
+                  $(o).html(nam);
+                  $("#nameList").append(o);
+                }
+
+                $("option").css({
+                  "font-weight": "bold",
+                });
+              } catch (error) {
+                alert(error);
+              }
+
+              // var li = response[1].newName;
+
+              return;
+            },
+
+            error: function (request, status, error) {
+              alert(request.responseText);
+            },
+          });
         }
+      }
     </script>
   </body>
 </html>
