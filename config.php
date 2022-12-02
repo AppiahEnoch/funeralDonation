@@ -24,7 +24,7 @@ $conn = mysqli_connect($hostname, $username, $password, $database) or die("Datab
 
 // railway
 
-//*
+/*
 
 $hostname = "containers-us-west-98.railway.app";
 $username = "root";
@@ -36,7 +36,7 @@ $conn = mysqli_connect($hostname, $username, $password, $database,$port) or die(
 //*/
 
 
-/*
+//*
 
 $hostname = "containers-us-west-136.railway.app";
 $username = "root";
