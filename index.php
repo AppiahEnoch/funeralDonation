@@ -75,6 +75,9 @@
       $(document).ready(function () {
         updateList();
 
+
+        getTotalDonation() ;
+
         $("#donarMobile").keyup(function () {
           donorMobile = $("#donarMobile").val();
           if (!isNumber(donorMobile)) {
@@ -84,6 +87,13 @@
 
           
           var z=donorMobile.charAt(0);
+          var nn=donorMobile.length;
+          if(nn>10){
+            var s=donorMobile.substring(0, nn-1);
+            $("#donarMobile").val(s);
+
+
+          }
           if(z!=0){
             $("#donarMobile").val("0"+donorMobile);
 
@@ -113,7 +123,22 @@
             $("#aeAlertBody").text(aeBody);
             $("#aeAlert").modal("show");
             return;
-          } else if (aeEmpty(familyMember)) {
+          } 
+           else if ((donorMobile.length!=10)) {
+            aeTitle = "WRONG DONOR MOBILE";
+            aeBody = "ENTER VALID MOBILE FOR  DONOR.";
+            $("#aeAlertTitle").text(aeTitle);
+            $("#aeAlertBody").text(aeBody);
+            $("#aeAlert").modal("show");
+            return;
+          } 
+          
+          
+          
+          
+          
+          
+          else if (aeEmpty(familyMember)) {
             aeTitle = "CHOOSE FAMILY MEMBER ";
             aeBody = "SELECT A FAMILY MEMBER NAME";
             $("#aeAlertTitle").text(aeTitle);
@@ -283,6 +308,7 @@
           <div class="row">
             <div class="col-6">
               <button
+              onclick="editDon()"
                 style="font-weight: bold"
                 class="btn-primary w-100"
                 type="button"
@@ -331,9 +357,16 @@
 
           <hr />
 
-          <h5>
+          <h5 >
+            
+            Received Today
+            <span  style="text-decoration: underline;" id="received_today"></span>
+            <span style="font-size: 5r3m">  &nbsp; <span style="font-size:small ;">GHS</span></span>
+          </h5>
+          <h5 >
             Total received
-            <span style="font-size: 5r3m"> &nbsp; 0 &nbsp; GHS</span>
+            <span style="text-decoration: underline;" id="total_received"></span>
+            <span style="font-size: 5r3m">  &nbsp; <span style="font-size:small ;">GHS</span></span></span>
           </h5>
 
           <!-- 2 column grid layout for inline styling -->
@@ -426,6 +459,7 @@
     </div>
 
     <!-- END MODAL -->
+
     <!-- Modal HTML -->
     <div id="aeAlert" class="modal fade" tabindex="-3">
       <div class="modal-dialog" style="width: 20rem">
@@ -451,6 +485,9 @@
     <!-- END MODAL -->
 
     <script>
+
+
+
       function updateList() {
         $.ajax({
           url: "selectMemberList.php",
@@ -558,6 +595,47 @@
           },
         });
       }
+
+      
+
+      function getTotalDonation() {
+        $.ajax({
+          type: "post",
+          cache: false,
+          url: "selectDonation.php",
+          dataType: "text",
+          error: function (xhr, status, error) {
+            var err = eval("(" + xhr.responseText + ")");
+            alert(err.Message);
+          },
+
+          success: function (data, status) {
+
+            var output=data.split("|");
+
+            var total_today=output[0];
+            var total_All=output[1];
+
+            $("#received_today").text(total_today);
+            $("#total_received").text(total_All);
+
+
+           // alert(total_today+" "+total_All);
+
+    
+
+        
+            return;
+          },
+        });
+      }
+
+
+      function editDon(){
+        location.replace("editDonation.html")
+      }
+
+
     </script>
 
     <script

@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>FUNERAL DONATION</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="w3css.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Raleway"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.1.min.js"
+      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+      integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://kit.fontawesome.com/c1db89cf54.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="dataTable.js"></script>
+
+    <style>
+      body,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: "Raleway", sans-serif;
+      }
+    </style>
+
+    <style>
+      table {
+        font-family: arial, sans-serif;
+
+        width: 100%;
+      }
+
+      td,
+      th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+
+      tr {
+        background-color: white;
+      }
+
+      #col1 {
+        background-color: blue;
+      }
+    </style>
+
+    <style>
+      a:visited {
+        color: teal;
+      }
+
+      td:first-child {
+        font-weight: bold;
+      }
+    </style>
+
+    <style>
+      #wrap {
+        margin: auto;
+        width: 100%;
+
+        padding: 1rem;
+      }
+
+      .highlight { background-color: #8540F5; color:white; font-weight: bold; }
+    </style>
+  </head>
+  <body class="w3-aqua w3-content" style="max-width: 1600px">
+    <script>
+
+      var selectedData="";
+
+      function showDeleteAlert() {
+        deleteSelectedData();
+
+        location.reload();
+}
+
+      $(document).ready(function () {
+        reloadTable();
+
+
+       
+
+   
+       
+    
+
+
+        $("#btDelrow").click(function(){
+          document.getElementById('aeYesNo').style.display='block'
+        //  deleteSelectedData();
+
+        })
+
+
+
+
+
+
+
+
+
+
+        $("#tbBasicInfo ").on("click", "tr", function () {
+          var selected = $(this).hasClass("highlight");
+          $("#tbBasicInfo tr").removeClass("highlight");
+          if (!selected){
+            $(this).addClass("highlight");
+          }
+
+        selectedData=$(this).children().closest("td").html();
+
+        });
+
+
+
+
+      });
+    </script>
+
+    <!-- Sidebar/menu -->
+
+    <!-- !PAGE CONTENT! -->
+    <div id="wrap" class="w3-main">
+      <!-- Header -->
+
+      <!-- First Photo Grid-->
+      <div class="w3-row-padding w3-aqua">
+
+        <a href="index.php" class="w3-button w3-deep-purple"> GO HOME  <i class="fa fa-home" aria-hidden="true"></i>
+        </a>
+        <div class="w3-container w3-margin">
+          <div class="w3-container">
+            <h4>
+              <strong>EDIT DONATIONS</strong>
+            </h4>
+            <button id="btEdit" class="w3-button w3-deep-purple">
+              Edit
+              <i class="fa fa-pencil" aria-hidden="true"></i>
+            </button>
+            <div class="w3-card">
+              <table id="tbBasicInfo" style="width: 100%">
+                <!-- Put <thead>, <tbody>, and <tr>'s here! -->
+                <tbody id="tbB"></tbody>
+              </table>
+            </div>
+
+            <div class="w3-container"></div>
+            <button id="btDelrow" class="w3-button w3-deep-purple">
+              <i class="fa fa-trash" aria-hidden="true"></i> Delete Selected
+            </button>
+    
+            <button id="btSaveEdit" class="w3-button w3-deep-purple">
+              <i class="fa fa-floppy-o" aria-hidden="true"></i>
+              Save
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- BEGIN AEMODEL-->
+      <div id="aeModelPassive" class="w3-modal">
+        <div class="w3-modal-content">
+          <header class="w3-container w3-deep-purple">
+            <span
+              onclick="document.getElementById('aeModelPassive').style.display='none'"
+              class="w3-button w3-display-topright"
+              >&times;</span
+            >
+            <h2 id="aeMtext">Modal Header</h2>
+          </header>
+        </div>
+      </div>
+      <!-- END AEMODEL-->
+    </div>
+
+
+
+          <!-- BEGIN AEMODEL-->
+          <div id="aeYesNo" class="w3-modal">
+            <div class="w3-modal-content">
+              <header class="w3-container w3-deep-purple">
+                <span
+                  onclick="document.getElementById('aeYesNo').style.display='none'"
+                  class="w3-button w3-display-topright"
+                  >&times;</span
+                >
+                <h3  id="aeMtext">DO YOU WANT TO DELETE THE SELECTED RECORD?</h3>
+              </header>
+
+
+              <footer class="w3-container w3-deep-purple">
+                <button
+            onclick="showDeleteAlert()"
+                id="btMDeleteRow"
+                type="button"
+                class="w3-button w3-deep-purple"
+              
+              >
+              Delete
+              </button>
+
+              <button
+      
+              id="btMdelete"
+              type="button"
+              class="w3-button w3-deep-purple"
+              onclick="document.getElementById('aeYesNo').style.display='none'"
+            >
+             Cancel
+            </button>
+              
+              </footer>
+            </div>
+          </div>
+          <!-- END AEMODEL-->
+
+    <!--BEGIN RESET PASSWORD MODEL-->
+
+    <div id="aeMresetPassword" class="w3-modal">
+      <div
+        style="width: 30rem"
+        class="w3-modal-content w3-animate-left w3-card-4"
+      >
+        <header class="w3-container w3-deep-purple">
+          <span
+            onclick="document.getElementById('aeMresetPassword').style.display='none'"
+            class="w3-button w3-display-topright"
+            >&times;</span
+          >
+          <h3>RESET YOUR PASSWORD <i class="fa fa-unlock fa-2x"></i></h3>
+        </header>
+        <div class="w3-container w3-aqua w3-padding-small">
+          <form action="#" method="post">
+            <div
+              class="w3-container w3-aqua w3-center w3-padding"
+              style="width: 80%; margin: auto"
+            >
+              <div class="w3-auto w3-padding">
+                <input
+                  required
+                  style="font-weight: bolder"
+                  id="oldPassword"
+                  type="text"
+                  placeholder="Old Password"
+                />
+              </div>
+
+              <div class="w3-auto w3-padding">
+                <input
+                  required
+                  style="font-weight: bolder"
+                  id="newPassword"
+                  type="password"
+                  placeholder="New Password"
+                />
+              </div>
+              <div class="w3-auto w3-padding">
+                <input
+                  required
+                  style="font-weight: bolder"
+                  id="confirmPassword"
+                  type="password"
+                  placeholder="Confirm Password"
+                />
+
+                <br /><input
+                  id="showPassword1"
+                  class="w3-card"
+                  type="checkbox"
+                  onclick="showPassword()"
+                />
+                <label for="showPassword1"><span>Show Password</span></label>
+                <label
+                  id="errorMismatch"
+                  style="
+                    font-weight: bolder;
+                    font-style: italic;
+                    color: blue;
+                    display: none;
+                  "
+                >
+                  <span
+                    ><br />
+                    Password Mismatch!</span
+                  ></label
+                >
+              </div>
+
+              <button
+                type="submit"
+                id="submit"
+                class="w3-button w3-deep-purple w3-round w3-margin-top w3-justify w3-centered"
+              >
+                Reset Password
+                <i class="fa fa-unlock"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <footer class="w3-container w3-deep-purple">
+          <p></p>
+        </footer>
+      </div>
+    </div>
+    <!--END RESET PASSWORD MODEL-->
+
+    <script>
+      function showReset() {
+        w3_close();
+        document.getElementById("aeMresetPassword").style.display = "block";
+      }
+
+      function showPassword() {
+        var x = document.getElementById("newPassword");
+        var xx = document.getElementById("confirmPassword");
+        if (x.type === "password") {
+          x.type = "text";
+        } else {
+          x.type = "password";
+        }
+        if (xx.type === "password") {
+          xx.type = "text";
+        } else {
+          xx.type = "password";
+        }
+      }
+      // Script to open and close sidebar
+      function w3_open() {
+        document.getElementById("mySidebar").style.display = "block";
+        document.getElementById("myOverlay").style.display = "block";
+      }
+
+      function w3_close() {
+        document.getElementById("mySidebar").style.display = "none";
+        document.getElementById("myOverlay").style.display = "none";
+      }
+    </script>
+
+    <script>
+      function aeEmpty(e) {
+        var ee = "";
+        try {
+          ee = e.trim();
+        } catch (error) {
+          return true;
+        }
+        try {
+          switch (e) {
+            case "":
+            case 0:
+            case "0":
+            case null:
+            case false:
+            case undefined:
+              return true;
+            default:
+              return false;
+          }
+        } catch (error) {
+          return true;
+        }
+      }
+
+      function isNumber(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+      }
+
+      function updateList() {
+        $.ajax({
+          url: "selectMemberList.php",
+          type: "get",
+          dataType: "JSON",
+          success: function (response) {
+            //alert(response)
+            var len = response.length;
+
+            try {
+              $("#nameList")
+                .empty()
+                .append(
+                  '<option selected="selected" >To this Family Member</option>'
+                );
+
+              for (let i = 1; i < len; i++) {
+                var nam = response[i].item;
+
+                var o = new Option(nam);
+                /// jquerify the DOM object 'o' so we can use the html method
+                $(o).html(nam);
+                $("#nameList").append(o);
+              }
+
+              $("option").css({
+                "font-weight": "bold",
+              });
+            } catch (error) {
+              alert(error);
+            }
+
+            // var li = response[1].newName;
+
+            return;
+          },
+
+          error: function (request, status, error) {
+            alert(request.responseText);
+          },
+        });
+
+
+
+     
+      }
+
+      function reloadTable(){
+        
+
+
+        $("#tbB").append("<th>#</th>");
+        $("#tbB").append("<th> Donor</th>");
+        $("#tbB").append("<th> Mobile</th>");
+        $("#tbB").append("<th> Amount</th>");
+        $("#tbB").append("<th> Family Member</th>");
+        $("#tbB").append("<th> Date</th>");
+
+        // $('#tbB').append('<tr><td>12</td> <td>12</td> <td>12</td> <td>12</td> <td>12</td> </tr>');
+
+        $("th").css({ "background-color": "blue", color: "white" });
+
+        $.ajax({
+          url: "selectAllDonation.php",
+          type: "get",
+          dataType: "JSON",
+          success: function (response) {
+            var len = response.length;
+            //  alert(len);
+
+            for (let i = 1; i < len; i++) {
+              var id = response[i].id;
+              var name = response[i].donor;
+              var mobile = response[i].mobile;
+              var amount = response[i].amount;
+              var member = response[i].member;
+              var time = response[i].doDate;
+
+              $("#tbB").append(
+                "<tr><td>" +
+                  id +
+                  "</td> <td>" +
+                  name +
+                  "</td> <td>" +
+                  mobile +
+                  "</td> <td>" +
+                  amount +
+                  "</td> <td>" +
+                  member +
+                  "</td> <td>" +
+                  time +
+                  "</td> </tr>"
+              );
+            }
+
+            $("#btEdit").click(function () {
+              $("tr td").attr("contentEditable", "true");
+            });
+          },
+
+          error: function (xhr, status, error) {
+            var err = eval("(" + xhr.responseText + ")");
+            alert(err.Message);
+          },
+        });
+
+        
+          
+        }
+
+
+
+        function deleteSelectedData(){
+          $.ajax({
+          type: "post",
+          data: {
+            id: selectedData
+          },
+          cache: false,
+          url: "deleteselectedData.php",
+          dataType: "text",
+          error: function (xhr, status, error) {
+            var err = eval("(" + xhr.responseText + ")");
+            alert(err.Message);
+          },
+
+          success: function (data,status) {
+           // alert(data);
+          },
+        });
+
+        }
+    </script>
+  </body>
+</html>
