@@ -88,7 +88,7 @@
       }
 
       .highlight {
-        background-color: #8540f5;
+        background-color: #6F42C1;
         color: white;
         font-weight: bold;
       }
@@ -107,6 +107,11 @@
       $(document).ready(function () {
         reloadTable();
         updateList();
+
+        $("#btSaveEdit").click(function () {
+          $("tr td:nth-child(2)").attr("contentEditable", "false");
+          location.reload();
+        });
       
 
         $("select").on("change", function (e) {
@@ -132,11 +137,153 @@
           $("#tbBasicInfo tr").removeClass("highlight");
           if (!selected) {
             $(this).addClass("highlight");
+
+   
+
           }
+
+          var currentRow=$(this).closest("tr"); 
+          var col1=currentRow.find("td:eq(1)").text(); 
+
+          //alert(col1)
 
           selectedData = $(this).children().closest("td").html();
         });
+
+
+        $('table').keyup(function(e) {
+      var myRow= $(e.target).closest("tr")
+      var id= myRow. find("td:eq(0)").text(); 
+      var donorName= myRow. find("td:eq(1)").text(); 
+      var donorMobile= myRow. find("td:eq(2)").text(); 
+      var donorAmount= myRow. find("td:eq(3)").text(); 
+      var familyMember= myRow. find("td:eq(4)").text(); 
+      var donationDate= myRow. find("td:eq(5)").text(); 
+
+      donorMobile=donorMobile.trim();
+      donorAmount=donorAmount.trim();
+  
+      var nnn=donorName.toUpperCase();
+      donorName=nnn;
+      familyMember=familyMember.toUpperCase();
+     
+
+      if(aeEmpty(id)){
+        return
+
+      }
+      if(aeEmpty(donorName)){
+        return
+
+      }
+      if(aeEmpty(donorMobile)){
+        return
+
+      }
+      if(aeEmpty(donorAmount)){
+        return
+
+      }
+      if(aeEmpty(familyMember)){
+        return
+
+      }
+      if(aeEmpty(donationDate)){
+        return
+
+      }
+
+      if(!(isNumber(donorMobile))){
+        return
+
+      }
+      if(!(isNumber(donorAmount))){
+        return
+
+      }
+      if(!(isNumber(id))){
+        return
+
+      }
+
+
+    if(donorMobile.length!=10){
+      return;
+    }
+
+
+    var c=donorMobile.charAt(0);
+
+    if(c!="0"){
+      return
+    }
+
+    var am = parseFloat(donorAmount);
+
+    if(am<1){
+      return;
+    }
+  
+
+
+
+   
+
+
+
+
+      updateDonation(donorName,donorMobile,donorAmount,
+      familyMember,donationDate,id);
+
+
+
+
+
+
+
+    
+  });
+
+
+
+
       });
+
+
+
+
+      function updateDonation(donarName,donarMobile,
+      donorAmount,familyMember,donationDate,id){
+
+        $.ajax({
+          type: "post",
+          data: {
+            id: id,
+            donorName: donarName,
+            donorMobile:donarMobile,
+            donorAmount:donorAmount,
+            familyMember: familyMember,
+            donationDate:donationDate
+
+
+
+          },
+          cache: false,
+          url: "updateDonation.php",
+          dataType: "text",
+          error: function (xhr, status, error) {
+            var err = eval("(" + xhr.responseText + ")");
+            alert(err.Message);
+          },
+
+          success: function (data,status) {
+     
+          },
+        });
+
+
+
+      }
     </script>
 
     <!-- Sidebar/menu -->
@@ -165,10 +312,10 @@
 
         <button
           style="visibility: hidden"
-          id="btEdit"
+        
           class="w3-button w3-deep-purple"
         >
-          Edit
+        
           <i class="fa fa-pencil" aria-hidden="true"></i>
         </button>
         <div class="w3-card">
@@ -185,18 +332,22 @@
         </div>
         <br />
         <button id="btDelrow" class="w3-button w3-deep-purple">
-          <i class="fa fa-trash" aria-hidden="true"></i> Delete Selected
+          <i class="fa fa-trash" aria-hidden="true"></i> Delete
         </button>
-
         <button
-          style="visibility: hidden"
-          id="btSaveEdit"
+       
+          id="btEdit"
           class="w3-button w3-deep-purple"
         >
+          Edit
+          <i class="fa fa-pencil" aria-hidden="true"></i>
+        </button>
+
+
+        <button id="btSaveEdit" class="w3-button w3-deep-purple">
           <i class="fa fa-floppy-o" aria-hidden="true"></i>
           Save
         </button>
-      </div>
 
       <!-- BEGIN AEMODEL-->
       <div id="aeModelPassive" class="w3-modal">
