@@ -204,6 +204,14 @@
         $("#myMAddNewName").on("click", "#btMadd", function (e) {
           e.preventDefault();
           var name = $("#tfMaddName").val();
+          try {
+            var myN=name.toUpperCase();
+            name=myN;
+            
+          } catch (error) {
+            
+          }
+         
 
           $.post(
             "addNewFamilyMember.php",
