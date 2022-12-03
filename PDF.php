@@ -40,9 +40,9 @@ $size=sizeof($memberList);
 
 
 
-$level=cleanInput($_POST["level"]);
-$code="";
-$staffID="";
+//$level=cleanInput($_POST["level"]);
+//$code="";
+//$staffID="";
 
 // add pdf class
 ob_end_clean();
