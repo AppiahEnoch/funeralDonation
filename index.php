@@ -583,26 +583,18 @@
 
 
             
-            $.ajax({
-          type: "post",
-          data: {
+         
+        $.post(
+          "SMS.php",
+          {
             receiver: donorMobile,
             message:sms
-
           },
-          cache: false,
-          url: "SMS.php",
-          dataType: "text",
-          error: function (xhr, status, error) {
-            var err = eval("(" + xhr.responseText + ")");
-            alert(err.Message);
-          },
-
-          success: function (data,status) {
-            alert(data);
-          },
-        });
-
+          function (data, status) {
+           // alert(data);
+          }
+        );
+      }
 
 
       function insertDonation() {
