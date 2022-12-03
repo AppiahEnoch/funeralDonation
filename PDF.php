@@ -33,21 +33,14 @@ if (mysqli_num_rows($result) > 0) {
 }
 
 $size=sizeof($memberList);
-//echo  $memberList[$size-1];
-
-//exit();
 
 
 
-
-//$level=cleanInput($_POST["level"]);
-//$code="";
-//$staffID="";
-
-// add pdf class
-//ob_end_clean();
+ob_end_clean();
 require('fpdf/fpdf.php');
 $pdf = new FPDF();
+
+
 
 
 //Add a new page
@@ -98,7 +91,7 @@ $pdf->Ln();
 $pdf->Cell(50,6,"   GHS ".$grandTotalDonation);
 $pdf->Ln();
 
-  $pdf->Output('DONATION_REPORT.pdf','D');
+  $pdf->Output('F','DONATION_REPORT.pdf');
 
 $conn->close();
 
