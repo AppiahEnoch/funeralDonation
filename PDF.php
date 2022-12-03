@@ -45,7 +45,7 @@ $size=sizeof($memberList);
 //$staffID="";
 
 // add pdf class
-ob_end_clean();
+//ob_end_clean();
 require('fpdf/fpdf.php');
 $pdf = new FPDF();
 //Add a new page
