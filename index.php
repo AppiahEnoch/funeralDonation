@@ -580,20 +580,33 @@
             " and \n" +
             " and the Entire family are very glad for your Donation.";
 
+            $.ajax({
+          type: "post",
+          data: {
+            receiver: donorMobile,
+            message:sms
+
+          },
+          cache: false,
+          url: "SMS.php",
+          dataType: "text",
+          error: function (xhr, status, error) {
+            var err = eval("(" + xhr.responseText + ")");
+            alert(err.Message);
+          },
+
+          success: function (data,status) {
+            alert(data);
+          },
+        });
+
 
 
             
-         
-        $.post(
-          "SMS.php",
-          {
-            receiver: donorMobile,
-            message:sms
-          },
-          function (data, status) {
-           // alert(data);
-          }
-        );
+    
+
+
+
       }
 
 
