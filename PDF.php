@@ -11,8 +11,6 @@ $subs=10;
 $subsWant=9;
 
 
-
-
 $sumTotal=0;
 $numberOfDonor=0;
 
