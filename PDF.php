@@ -96,7 +96,9 @@ $pdf->Ln();
 $pdf->Cell(50,6,"   GHS ".$grandTotalDonation);
 $pdf->Ln();
 
-  $pdf->Output('F', 'DONATION_REPORT.pdf');
+  $ou=     $pdf->Output('F', 'DONATION_REPORT.pdf');
+
+  echo $ou;
 
 
 
@@ -192,25 +194,6 @@ if (mysqli_num_rows($result) > 0) {
   $pdf->Ln();
   $pdf->Ln();
   $pdf->Ln();
-
- 
-
-  
-
-
-
- 
-  
-
-
-
-
-
-
-
- 
-
-
 
 
 }

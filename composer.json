@@ -2,5 +2,10 @@
     "require": {
         "twilio/sdk": "^6.43",
         "vlucas/phpdotenv": "^5.5"
+    },
+
+    "require": {
+        "setasign/fpdf": "1.8.*",
+        "setasign/fpdi": "^2.0"
     }
 }
