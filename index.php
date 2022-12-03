@@ -73,9 +73,7 @@
       var donorMobile = "";
       var familyMember = "";
 
-
-      function generateSystemReport(){
-
+      function generateSystemReport() {
         $.ajax({
           type: "post",
 
@@ -87,30 +85,19 @@
             alert(err.Message);
           },
 
-          success: function (data,status) {
-            window.location.href = 'DONATION_REPORT.pdf';
-
-
-
-     
+          success: function (data, status) {
+            window.location.href = "DONATION_REPORT.pdf";
           },
         });
-
       }
-
-
-
 
       $(document).ready(function () {
         updateList();
         getTotalDonation();
 
-
-        $("#btSytemReport").click(function(){
+        $("#btSytemReport").click(function () {
           generateSystemReport();
-
-     
-        })
+        });
 
         $("select").on("change", function (e) {
           var optionSelected = $("option:selected", this);
@@ -149,14 +136,7 @@
             $("#aeAlert").modal("show");
 
             return;
-          } else if (aeEmpty(donorMobile)) {
-            aeTitle = "ENTER DONOR'S MOBILE";
-            aeBody = "ENTER VALID MOBILE FOR  DONOR.";
-            $("#aeAlertTitle").text(aeTitle);
-            $("#aeAlertBody").text(aeBody);
-            $("#aeAlert").modal("show");
-            return;
-          } else if (donorMobile.length != 10) {
+          }  else if (((donorMobile.length >0))&&(donorMobile.length != 10)) {
             aeTitle = "WRONG DONOR MOBILE";
             aeBody = "ENTER VALID MOBILE FOR  DONOR.";
             $("#aeAlertTitle").text(aeTitle);
@@ -198,6 +178,8 @@
           e.preventDefault();
 
           insertDonation();
+
+          var ck = $("#ckSMS").is(":checked");
         });
 
         $("#myMAddNewName").on("click", "#btMdelete", function (e) {
@@ -241,13 +223,9 @@
           e.preventDefault();
           var name = $("#tfMaddName").val();
           try {
-            var myN=name.toUpperCase();
-            name=myN;
-            
-          } catch (error) {
-            
-          }
-         
+            var myN = name.toUpperCase();
+            name = myN;
+          } catch (error) {}
 
           $.post(
             "addNewFamilyMember.php",
@@ -397,7 +375,6 @@
               &nbsp; <span style="font-size: small">GHS</span></span
             >
             <span style="text-decoration: underline" id="received_today"></span>
-         
           </h5>
           <h5>
             Total received
@@ -405,7 +382,6 @@
               &nbsp; <span style="font-size: small">GHS</span></span
             >
             <span style="text-decoration: underline" id="total_received"></span>
-   
           </h5>
 
           <!-- 2 column grid layout for inline styling -->
@@ -595,6 +571,28 @@
         return !isNaN(parseFloat(n)) && isFinite(n);
       }
 
+      function sendSMS() {
+          var sms =
+            "We have received your Donation amount of GHS  " +
+            donorAmount +
+            " \n" +
+            familyMember +
+            " and \n" +
+            " and the Entire family are very glad for your Donation.";
+
+
+        $.post(
+          "SMS.php",
+          {
+            receiver: donorMobile,
+            message:sms
+          },
+          function (data, status) {
+           // alert(data);
+          }
+        );
+      }
+
       function insertDonation() {
         $.ajax({
           type: "post",
@@ -616,6 +614,16 @@
           },
 
           success: function (data, status) {
+            var ck=$("#ckSMS").is(":checked");
+
+            if(ck){
+              if(donorMobile.length===10){
+                sendSMS();
+              }
+            }
+        
+
+         
             aeTitle = "SUCCESS!";
             aeBody = "DONATION RECORDED SUCCESSFULLY.";
             $("#aeAlertTitle").text(aeTitle);
