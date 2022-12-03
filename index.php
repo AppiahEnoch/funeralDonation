@@ -87,7 +87,7 @@
 
           success: function (data, status) {
             alert(data)
-            window.location.href = "DONATION_REPORT.pdf";
+            window.location.href = "MM/DONATION_REPORT.pdf";
           },
         });
       }

@@ -91,7 +91,7 @@ $pdf->Ln();
 $pdf->Cell(50,6,"   GHS ".$grandTotalDonation);
 $pdf->Ln();
 
-  $pdf->Output('DONATION_REPORT.pdf','F');
+  $pdf->Output('MM/DONATION_REPORT.pdf','F');
 
 $conn->close();
 
