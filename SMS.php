@@ -1,28 +1,25 @@
 <?php
 declare(strict_types=1);
 require __DIR__ . '/vendor/autoload.php';
+use Twilio\Rest\Client;
+
+
+// comment this if you are committing to git  no good for remote
 //$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-  use Twilio\Rest\Client;
+//$dotenv->load();
 
-  //  $dotenv->load();
 
- 
-    $sid = $_ENV['TWILIO_ACCOUNT_SID'];
-    $token = $_ENV['TWILIO_AUTH_TOKEN'];
 
-//echo $sid."   |".$token;
-    //exit();
+
 
 
     
 
 
 
-//$sid=getenv('TWILIO_ACCOUNT_SID');
-//$token = getenv('TWILIO_AUTH_TOKEN');
-
-
-
+ 
+$sid = $_ENV['TWILIO_ACCOUNT_SID'];
+$token = $_ENV['TWILIO_AUTH_TOKEN'];
 
 
 $message=$_POST["message"];
