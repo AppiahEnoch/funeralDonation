@@ -581,17 +581,29 @@
             " and the Entire family are very glad for your Donation.";
 
 
-        $.post(
-          "SMS.php",
-          {
+
+            
+            $.ajax({
+          type: "post",
+          data: {
             receiver: donorMobile,
             message:sms
+
           },
-          function (data, status) {
-           // alert(data);
-          }
-        );
-      }
+          cache: false,
+          url: "SMS.php",
+          dataType: "text",
+          error: function (xhr, status, error) {
+            var err = eval("(" + xhr.responseText + ")");
+            alert(err.Message);
+          },
+
+          success: function (data,status) {
+            alert(data);
+          },
+        });
+
+
 
       function insertDonation() {
         $.ajax({
