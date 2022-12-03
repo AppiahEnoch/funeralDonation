@@ -36,7 +36,7 @@ $size=sizeof($memberList);
 
 
 
-ob_end_clean();
+//ob_end_clean();
 require('fpdf/fpdf.php');
 $pdf = new FPDF();
 
