@@ -4,7 +4,7 @@ require __DIR__ . '/vendor/autoload.php';
 use Twilio\Rest\Client;
 
 
-// comment this if you are committing to git  no good for remote
+// comment this if you are committing to git  no good
 //$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 //$dotenv->load();
 

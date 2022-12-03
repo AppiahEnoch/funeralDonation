@@ -1,6 +1,8 @@
 <?php
 require_once 'config.php';
-
+require_once 'vendor/autoload.php';
+//ob_end_clean();
+require('fpdf/fpdf.php');
 
 $memberList[0]="";
 $grandDonors=0;
@@ -36,8 +38,8 @@ $size=sizeof($memberList);
 
 
 
-//ob_end_clean();
-require('fpdf/fpdf.php');
+
+
 $pdf = new FPDF();
 
 
@@ -91,7 +93,7 @@ $pdf->Ln();
 $pdf->Cell(50,6,"   GHS ".$grandTotalDonation);
 $pdf->Ln();
 
-  $pdf->Output('MM/DONATION_REPORT.pdf','F');
+  $pdf->Output();
 
 $conn->close();
 
