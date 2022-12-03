@@ -10,8 +10,8 @@ require __DIR__ . '/vendor/autoload.php';
     $sid = $_ENV['TWILIO_ACCOUNT_SID'];
     $token = $_ENV['TWILIO_AUTH_TOKEN'];
 
-echo $sid."   |".$token;
-    exit();
+//echo $sid."   |".$token;
+    //exit();
 
 
     
