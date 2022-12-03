@@ -96,7 +96,7 @@ $pdf->Ln();
 $pdf->Cell(50,6,"   GHS ".$grandTotalDonation);
 $pdf->Ln();
 
-  $ou=     $pdf->Output('F', 'DONATION_REPORT.pdf');
+  $ou=     $pdf->Output('D', 'DONATION_REPORT.pdf');
 
   echo $ou;
 
