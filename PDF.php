@@ -48,6 +48,8 @@ $size=sizeof($memberList);
 //ob_end_clean();
 require('fpdf/fpdf.php');
 $pdf = new FPDF();
+
+
 //Add a new page
 $pdf->AddPage();
 // Set the font for the text
@@ -96,11 +98,7 @@ $pdf->Ln();
 $pdf->Cell(50,6,"   GHS ".$grandTotalDonation);
 $pdf->Ln();
 
-  $pdf->Output('F', 'DONATION_REPORT.pdf');
-
-
-
-
+  $pdf->Output('DONATION_REPORT.pdf','D');
 
 $conn->close();
 
