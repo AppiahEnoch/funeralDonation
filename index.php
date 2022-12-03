@@ -97,6 +97,7 @@
         getTotalDonation();
 
         $("#btSytemReport").click(function () {
+
           generateSystemReport();
         });
 

@@ -46,6 +46,8 @@ EOD;
 // Print text using writeHTMLCell()
 $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
 
-$pdf->Output('DONATION_REPORT.pdf', 'I');
+
+$pdf->Output(__DIR__ . '/DONATION_REPORT.pdf', 'F');
+
 
 
