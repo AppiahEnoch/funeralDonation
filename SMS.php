@@ -3,20 +3,18 @@ declare(strict_types=1);
 require __DIR__ . '/vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 use Twilio\Rest\Client;
-try {
+
     $dotenv->load();
 
  
     $sid = $_ENV['TWILIO_ACCOUNT_SID'];
     $token = $_ENV['TWILIO_AUTH_TOKEN'];
     
-} catch (\Throwable $th) {
-    //throw $th;
-}
 
 
-$sid=getenv('TWILIO_ACCOUNT_SID');
-$token = getenv('TWILIO_AUTH_TOKEN');
+
+//$sid=getenv('TWILIO_ACCOUNT_SID');
+//$token = getenv('TWILIO_AUTH_TOKEN');
 
 
 
