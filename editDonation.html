@@ -98,10 +98,15 @@
     <script>
       var selectedData = "";
 
+      
       function showDeleteAlert() {
-        deleteSelectedData();
+         deleteSelectedData();
+     
+      }
 
-        location.reload();
+      function showDeleteAlertAll() {
+           deleteAllData();
+     
       }
 
       $(document).ready(function () {
@@ -129,7 +134,12 @@
 
         $("#btDelrow").click(function () {
           document.getElementById("aeYesNo").style.display = "block";
-          //  deleteSelectedData();
+       
+        });
+
+        $("#btDelAll").click(function () {
+          document.getElementById("aeYesNoAll").style.display = "block";
+
         });
 
         $("#tbBasicInfo ").on("click", "tr", function () {
@@ -331,6 +341,9 @@
         
         </div>
         <br />
+        <button id="btDelAll" class="w3-button w3-deep-purple">
+          <i class="fa fa-trash" aria-hidden="true"></i> Delete All
+        </button>
         <button id="btDelrow" class="w3-button w3-deep-purple">
           <i class="fa fa-trash" aria-hidden="true"></i> Delete
         </button>
@@ -365,6 +378,7 @@
       <!-- END AEMODEL-->
     </div>
 
+    
     <!-- BEGIN AEMODEL-->
     <div id="aeYesNo" class="w3-modal">
       <div class="w3-modal-content">
@@ -392,6 +406,42 @@
             type="button"
             class="w3-button w3-deep-purple"
             onclick="document.getElementById('aeYesNo').style.display='none'"
+          >
+            Cancel
+          </button>
+        </footer>
+      </div>
+    </div>
+    <!-- END AEMODEL-->
+
+    <!-- BEGIN AEMODEL-->
+    <div id="aeYesNoAll" class="w3-modal">
+      <div class="w3-modal-content">
+        <header class="w3-container w3-deep-purple">
+          <span
+            onclick="document.getElementById('aeYesNoAll').style.display='none'"
+            class="w3-button w3-display-topright"
+            >&times;</span
+          >
+          <h3 id="aeMtext">DO YOU WANT TO DELETE ALL RECORDS IN THIS TABLE?</h3>
+          <h4 id="aeMtext">YOU CANNOT UNDO THIS ACTION ONCE IT IS DONE!</h4>
+        </header>
+
+        <footer class="w3-container w3-deep-purple">
+          <button
+            onclick="showDeleteAlertAll()"
+            id="btMDeleteRowAll"
+            type="button"
+            class="w3-button w3-deep-purple"
+          >
+            Delete
+          </button>
+
+          <button
+         
+            type="button"
+            class="w3-button w3-deep-purple"
+            onclick="document.getElementById('aeYesNoAll').style.display='none'"
           >
             Cancel
           </button>
@@ -754,9 +804,31 @@
           },
 
           success: function (data, status) {
-            // alert(data);
+            location.href ="editDonation.html";
+           
           },
         });
+      }
+
+
+      function deleteAllData() {
+        $.ajax({
+          type: "post",
+     
+          cache: false,
+          url: "deleteAllData.php",
+          dataType: "text",
+          error: function (xhr, status, error) {
+            var err = eval("(" + xhr.responseText + ")");
+            alert(err.Message);
+          },
+
+          success: function (data, status) {
+
+            location.href ="editDonation.html";
+          },
+        });
+      }
 
         function updateList() {
           $.ajax({
@@ -800,7 +872,7 @@
             },
           });
         }
-      }
+      
     </script>
   </body>
 </html>

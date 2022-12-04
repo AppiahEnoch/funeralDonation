@@ -577,7 +577,7 @@
           },
 
           success: function (data,status) {
-            alert(data);
+            //alert(data);
           },
         });
 
@@ -618,7 +618,7 @@
             if(ck){
               if(donorMobile.length===10){
             
-                sendSMS();
+                //sendSMS();
               }
             }
         
