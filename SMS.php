@@ -2,7 +2,7 @@
 declare(strict_types=1);
 require __DIR__ . '/vendor/autoload.php';
 use Twilio\Rest\Client;
-require_once "Twilio/autoload.php";
+
 
 
 // comment this if you are committing to git  no good
