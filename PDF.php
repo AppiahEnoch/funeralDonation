@@ -1,9 +1,8 @@
 <?php
 require_once 'config.php';
-require_once 'vendor/autoload.php';
-//ob_end_clean();
 require('fpdf/fpdf.php');
-
+header("Content-Type: application/pdf");
+error_reporting(E_ERROR| E_PARSE);
 $memberList[0]="";
 $grandDonors=0;
 $grandTotalDonation=0;
@@ -33,10 +32,6 @@ if (mysqli_num_rows($result) > 0) {
 }
 
 $size=sizeof($memberList);
-
-
-
-
 
 $pdf = new FPDF();
 
@@ -93,14 +88,20 @@ $pdf->Ln();
 
 
 
-chmod("REPORT/DONATION_REPORT.pdf", 0755);
-  deleteDirectory('REPORT');
-  mkdir('REPORT');
+//chmod("REPORT/DONATION_REPORT.pdf", 0755);
+  //deleteDirectory('REPORT');
+  //mkdir('REPORT');
   
+  ob_end_clean();
 
-  $pdf->Output("REPORT/DONATION_REPORT.pdf",'F');
+  $pdf->Output("DONATION_REPORT.pdf", 'I');
+  //$pdf->Output("REPORT/DONATION_REPORT.pdf", 'D');
+ 
+  exit();
+
 
 $conn->close();
+
 
 
 
@@ -170,10 +171,6 @@ if (mysqli_num_rows($result) > 0) {
     $pdf->Cell(30,6,$shortMember,1,0);
     $pdf->Cell(45,6,$donationDate,1,0);
     $pdf->Ln();
-  
-
-
-
   }
   $pdf->Ln();
   $pdf->Cell(50,6,"NUMBER OF DONORS:");
@@ -192,8 +189,6 @@ if (mysqli_num_rows($result) > 0) {
   $pdf->Ln();
   $pdf->Ln();
   $pdf->Ln();
-
-
 }
 
 }
@@ -242,4 +237,6 @@ function deleteDirectory($dir) {
 
   return rmdir($dir);
 }
+
+exit;
 ?>

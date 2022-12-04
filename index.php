@@ -73,33 +73,13 @@
       var donorMobile = "";
       var familyMember = "";
 
-      function generateSystemReport() {
-        $.ajax({
-          type: "post",
 
-          cache: false,
-          url: "PDF.php",
-          dataType: "text",
-          error: function (xhr, status, error) {
-            var err = eval("(" + xhr.responseText + ")");
-            alert(err.Message);
-          },
-
-          success: function (data, status) {
-            alert(data)
-            window.location.href = "REPORT/DONATION_REPORT.pdf";
-          },
-        });
-      }
 
       $(document).ready(function () {
         updateList();
         getTotalDonation();
 
-        $("#btSytemReport").click(function () {
-
-          generateSystemReport();
-        });
+        
 
         $("select").on("change", function (e) {
           var optionSelected = $("option:selected", this);
@@ -245,9 +225,8 @@
     </script>
   </head>
   <body>
-    <button id="btSytemReport" type="button" class="btn btn-primary sticky-top">
-      System Report <i class="bi bi-filetype-pdf"></i>
-    </button>
+
+    <a class="btn btn-primary sticky-top" href="PDF.php?data" target="_blank">System Report  <i class="bi bi-filetype-pdf"></i></a>
     <div class="h-100 d-flex align-items-center justify-content-center m-1">
       <div
         class="h-100 d-flex align-items-center justify-content-center m-auto"
