@@ -93,6 +93,7 @@ $pdf->Ln();
 
 
 
+chmod("REPORT/DONATION_REPORT.pdf", 0755);
   deleteDirectory('REPORT');
   mkdir('REPORT');
   
