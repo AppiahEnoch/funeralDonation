@@ -47,7 +47,13 @@ EOD;
 $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
 
 
-$pdf->Output(__DIR__ . '/DONATION_REPORT.pdf', 'F');
+//$PATH=$_SERVER['DOCUMENT_ROOT'].'/DONATION_REPORT.pdf';
+
+
+
+$pdf->Output('MM/DONATION_REPORT.pdf', 'F');
+
+//
 
 
 

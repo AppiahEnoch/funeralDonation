@@ -78,7 +78,7 @@
           type: "post",
 
           cache: false,
-          url: "CTPDF.php",
+          url: "PDF.php",
           dataType: "text",
           error: function (xhr, status, error) {
             var err = eval("(" + xhr.responseText + ")");
@@ -87,7 +87,7 @@
 
           success: function (data, status) {
             alert(data)
-            window.location.href = "DONATION_REPORT.pdf";
+            window.location.href = "REPORT/DONATION_REPORT.pdf";
           },
         });
       }
