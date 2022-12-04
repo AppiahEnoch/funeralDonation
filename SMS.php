@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 require __DIR__ . '/vendor/autoload.php';
+include __DIR__ . "/vendor/twilio/sdk/src/Twilio/Rest/Client.php";
 use Twilio\Rest\Client;
 
 
