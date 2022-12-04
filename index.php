@@ -577,7 +577,7 @@
           },
 
           success: function (data,status) {
-           // alert(data);
+            alert(data);
           },
         });
 
@@ -612,10 +612,12 @@
           },
 
           success: function (data, status) {
+          
             var ck=$("#ckSMS").is(":checked");
 
             if(ck){
               if(donorMobile.length===10){
+            
                 sendSMS();
               }
             }

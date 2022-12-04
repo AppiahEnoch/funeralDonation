@@ -5,8 +5,8 @@ use Twilio\Rest\Client;
 
 
 // comment this if you are committing to git  no good
-//$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-//$dotenv->load();
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 
 
