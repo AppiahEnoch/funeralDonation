@@ -227,6 +227,7 @@
   <body>
 
     <a class="btn btn-primary sticky-top" href="PDF.php?data" target="_blank">System Report  <i class="bi bi-filetype-pdf"></i></a>
+    
     <div class="h-100 d-flex align-items-center justify-content-center m-1">
       <div
         class="h-100 d-flex align-items-center justify-content-center m-auto"
@@ -618,7 +619,7 @@
             if(ck){
               if(donorMobile.length===10){
             
-                //sendSMS();
+                sendSMS();
               }
             }
         
