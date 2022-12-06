@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>funeral donations</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
+    />
+    <script
+      src="https://kit.fontawesome.com/c1db89cf54.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.1.min.js"
+      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+      integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://kit.fontawesome.com/c1db89cf54.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <style>
+      html,
+      body {
+        background-color: #b0dbee;
+        height: 100%;
+        width: 100%;
+        margin: auto auto;
+      }
+
+      #form {
+        color: white;
+        background-color: #009edf;
+        border-radius: 0.3rem;
+        margin: auto;
+        padding: 2rem 2rem;
+
+        -webkit-box-shadow: -1px 3px 18px 0px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: -1px 3px 18px 0px rgba(0, 0, 0, 0.75);
+        box-shadow: -1px 3px 18px 0px rgba(0, 0, 0, 0.75);
+      }
+    </style>
+
+    <style>
+      #sp,
+      #sp2 {
+        margin-left: 0rem;
+        cursor: pointer;
+        position: relative;
+        z-index: 2000;
+        float: right;
+        color: black;
+        top: -1.6rem;
+        margin-bottom: -1.6rem;
+        left: -1rem;
+        padding: 0;
+      }
+
+
+
+    </style>
+
+    <script>
+
+var email="";
+var mobile="";
+      const validate_email = (email) => {
+        return String(email)
+          .toLowerCase()
+          .match(
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          );
+      };
+
+      function validate_mobile_g(mobile) {
+        var phoneRe = /^[0-9]{10}$/;
+        var digits = mobile.replace(/\D/g, "");
+        return phoneRe.test(digits);
+      }
+
+
+      var user_mail=""
+
+      $(document).ready(function () {
+        $("#loading").hide();
+        $("#aeAlert_wait").on("hidden.bs.modal", function () {
+            $("#span_user_mail").text(email)
+            $("#ae_model_input").modal("show")
+        });
+  
+   
+
+        $("#aeMdSuccess").on("hidden.bs.modal", function () {
+          //location.href = "admin.html";
+        });
+
+        $("#ae_model_input").on(
+          "click",
+          "#ae_model_input_submit",
+          function (e) {
+            var userCode=$("#tf_ae_model_input").val()
+        
+            if(!(code==userCode)){
+             $("#ae_model_input").modal("hide")
+             var   aeTitle1 = "INVALID OTP";
+             var aeBody1 = "PLEASE USE OTP CODE IS SENT TO THE EMAIL BELOW:\n"+user_mail;
+              $("#aeAlert_wait_Title").text(aeTitle1);
+              $("#aeAlert_wait_Body").text(aeBody1);
+              $("#aeAlert_wait").modal("show")
+
+
+
+            }
+            else{
+                $("#ae_model_input").modal("hide")
+                update_admin();
+              
+            }
+           
+          }
+        );
+
+        $("#bt_change").click(function () {
+          
+           mobile = $("#tf_mobile").val();
+           email = $("#tf_email").val();
+
+          if (aeEmpty(mobile) && aeEmpty(email)) {
+            return;
+          }
+
+       else  if (!(aeEmpty(mobile)) && !(aeEmpty(email))) {
+    
+              send_email_OTP(email);
+
+            return;
+          }
+
+        else  if (!aeEmpty(mobile)) {
+            if (validate_mobile_g(mobile)) {
+                $("#loading").show();
+                update_admin();
+                return;
+
+            } else {
+              aeTitle = "INVALID MOBILE";
+              aeBody = "PLEASE ENTER VALID MOBILE";
+              $("#aeAlertTitle").text(aeTitle);
+              $("#aeAlertBody").text(aeBody);
+              $("#aeAlert").modal("show");
+
+              return;
+            }
+          }
+
+        else  if (!aeEmpty(email)) {
+            if (validate_email(email)) {
+                user_mail=email;
+               $("#loading").show();
+                send_email_OTP(email);
+
+                return;
+
+
+            } else {
+              aeTitle = "INVALID EMAIL";
+              aeBody = "PLEASE ENTER VALID EMAIL";
+              $("#aeAlertTitle").text(aeTitle);
+              $("#aeAlertBody").text(aeBody);
+              $("#aeAlert").modal("show");
+
+              return;
+            }
+          }
+
+
+
+
+
+
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <button type="button" class="btn btn-primary sticky-top">
+      System Report <i class="bi bi-filetype-pdf"></i>
+    </button>
+    <div class="h-100 d-flex align-items-center justify-content-center m-1">
+      <div
+        class="h-100 d-flex align-items-center justify-content-center m-auto"
+      >
+        <form id="form">
+          <div class="form-outline mb-2 text-center">
+            <h3>Change Contact Details</h3>
+          </div>
+
+          <!--  input -->
+          <div class="form-outline mb-2">
+            <input
+              type="text"
+              id="tf_mobile"
+              class="form-control"
+              placeholder="Enter Mobile"
+              style="font-weight: bold; color: black; background-color: white"
+            />
+          </div>
+          <!--end  input -->
+          <!--  input -->
+          <div class="form-outline mb-2">
+            <input
+              type="text"
+              id="tf_email"
+              class="form-control"
+              placeholder="Enter Email"
+              style="font-weight: bold; color: black; background-color: white"
+            />
+          </div>
+          <!--end  input -->
+
+          <div class="form-outline mb-2">
+            <button
+              id="bt_change"
+              type="button"
+              style="font-weight: bold"
+              class="btn-primary w-100"
+            >
+              Change
+              <i id="loading" class="fa fa-spinner fa-spin fa-fw"></i>
+            </button>
+          </div>
+
+          <hr />
+
+          <!-- 2 column grid layout for inline styling -->
+          <div class="row mb-4">
+            <div class="col d-flex justify-content-start">
+              <!-- Checkbox -->
+              <div class="form-check justify-content-lg-start">
+                <a style="font-weight: bold; color: white" href="admin.html"
+                  >Go Back</a
+                >
+
+                <br />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- BEGIN AEMODEL-->
+    <div id="aeMdSuccess" class="modal" tabindex="-1">
+      <div
+        style="max-width: 20rem; background-color: gray"
+        class="modal-dialog"
+      >
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 id="aeMTitle" class="modal-title"><strong>SUCCESS!</strong></h5>
+          </div>
+          <div class="modal-body">
+            <p id="aeMBody">Action Performed successfully.</p>
+          </div>
+          <div class="modal-footer">
+            <button
+              id="btClose"
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+            >
+              Ok
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END AEMODEL-->
+
+    <!-- BEGIN AEMODEL-->
+    <div id="ae_model_confirm" class="modal" tabindex="-1">
+      <div
+        style="max-width: 20rem; background-color: gray"
+        class="modal-dialog"
+      >
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 id="aeMTitle" class="modal-title">
+              <strong>CONFIRM ACTION!</strong>
+            </h5>
+          </div>
+          <div class="modal-body">
+            <p id="aeMBody">Confirm Delete Action.</p>
+          </div>
+
+          <div class="modal-footer">
+            <div class="row">
+              <div class="col-6">
+                <button
+                  id="bt_confirm_delete"
+                  type="button"
+                  class="btn btn-danger"
+                >
+                  Delete
+                </button>
+              </div>
+              <div class="col-6">
+                <button
+                  id="btClose"
+                  type="button"
+                  class="btn btn-primary"
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END AEMODEL-->
+
+    <!-- Modal HTML -->
+    <div id="aeAlert" class="modal fade" tabindex="-3">
+      <div class="modal-dialog" style="width: 20rem">
+        <div class="modal-content">
+          <div
+            style="background-color: blue; color: white"
+            class="modal-header"
+          >
+            <h5 id="aeAlertTitle" class="modal-title">*****</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div style="background-color: white; color: black" class="modal-body">
+            <h6 id="aeAlertBody">**********</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- END MODAL -->
+    <!-- Modal HTML -->
+    <div id="aeAlert_wait" class="modal fade" tabindex="-3">
+      <div class="modal-dialog" style="width: 20rem">
+        <div class="modal-content">
+          <div
+            style="background-color: blue; color: white"
+            class="modal-header"
+          >
+            <h5 id="aeAlert_wait_Title" class="modal-title">*****</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div style="background-color: white; color: black" class="modal-body">
+            <h6 id="aeAlert_wait_Body">**********</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- END MODAL -->
+    <!-- Modal HTML -->
+    <div id="ae_model_input" class="modal fade" tabindex="-3">
+      <div class="modal-dialog" style="width: 20rem">
+        <div class="modal-content">
+          <div
+            style="background-color: blue;  color: white;"
+            class="modal-header"
+          >
+            <h5 id="ae_Model_Title" class="modal-title">ENTER OTP</h5>
+          
+         
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div style="background-color: blue ;" class="col">
+            <h6 style="color: white ; background-color: blue ; ">Visit &nbsp; <span style="text-decoration:underline ;">
+                <span id="span_user_mail">*******</span>
+             </span> &nbsp; for OTP</h6>
+          </div>
+
+
+          <div style="background-color: white; color: black" class="modal-body">
+            <div class="row">
+              <div class="col-12">
+                <input id="tf_ae_model_input" type="text"  placeholder="Enter OTP"/>
+              </div>
+              <div class="col mt-2">
+                <button id="ae_model_input_submit" class="btn btn-primary">
+                  Submit
+                </button>
+                <button    data-bs-dismiss="modal"   class="btn btn-primary">
+                 Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- END MODAL -->
+
+    <script>
+      function aeEmpty(e) {
+        var ee = "";
+        try {
+          ee = e.trim();
+        } catch (error) {
+          return true;
+        }
+        try {
+          switch (e) {
+            case "":
+            case 0:
+            case "0":
+            case null:
+            case false:
+            case undefined:
+              return true;
+            default:
+              return false;
+          }
+        } catch (error) {
+          return true;
+        }
+      }
+    </script>
+
+    <script>
+      var code = "";
+      function send_email_OTP(email) {
+        var subject = " OTP EMAIL VERIFICATION";
+        $("#loading").show();
+        $.ajax({
+          type: "post",
+          data: {
+            receiver: email,
+            subject: subject,
+          },
+          cache: false,
+          url: "send_email_OTP.php",
+          dataType: "text",
+          error: function (xhr, status, error) {
+            var err = eval("(" + xhr.responseText + ")");
+            alert(err.Message);
+          },
+          success: function (data, status) {
+            code = data;
+            $("#loading").hide();
+            $("#span_user_mail").text(email)
+            $("#ae_model_input").modal("show");
+          },
+        });
+      }
+
+
+      function  update_admin(){
+               
+        $.ajax({
+            type: "post",
+            data: {
+              mobile: mobile,
+              email: email
+            },
+            cache: false,
+            url: "reset_admin_contact.php",
+            dataType: "text",
+            error: function (xhr, status, error) {
+              var err = eval("(" + xhr.responseText + ")");
+              alert(err.Message);
+            },
+
+            success: function (data, status) {
+          
+           
+                $("#loading").hide();
+                $("#aeMdSuccess").modal("show");
+
+              
+            },
+          });
+      }
+    </script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

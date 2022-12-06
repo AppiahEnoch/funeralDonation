@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Funeral Donation App</title>
+    <title>Funeral Donations</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -57,405 +57,136 @@
     <style>
       #sp {
         margin-left: -2rem;
+
         cursor: pointer;
-        position: absolute;
+        position: relative;
         z-index: 2000;
         float: right;
+
+        margin-top: 0.5rem;
       }
     </style>
 
     <script>
-      var nameDel = "";
-      var aeTitle = "";
-      var aeBody = "";
-      var donorAmount = "";
-      var donorName = "";
-      var donorMobile = "";
-      var familyMember = "";
-
-
-
+        var username ="";
+        var password="";
       $(document).ready(function () {
-        updateList();
-        getTotalDonation();
+        $("#loading").hide();
 
-        
-
-        $("select").on("change", function (e) {
-          var optionSelected = $("option:selected", this);
-          var valueSelected = this.value;
-        });
-
-        $("#donarMobile").keyup(function () {
-          donorMobile = $("#donarMobile").val();
-          if (!isNumber(donorMobile)) {
-            $("#donarMobile").val("");
-            return;
-          }
-
-          var z = donorMobile.charAt(0);
-          var nn = donorMobile.length;
-          if (nn > 10) {
-            var s = donorMobile.substring(0, nn - 1);
-            $("#donarMobile").val(s);
-          }
-          if (z != 0) {
-            $("#donarMobile").val("0" + donorMobile);
+        $("#show_hide_password a").on("click", function (event) {
+          event.preventDefault();
+          if ($("#show_hide_password input").attr("type") == "text") {
+            $("#show_hide_password input").attr("type", "password");
+            $("#show_hide_password i").addClass("fa-eye-slash");
+            $("#show_hide_password i").removeClass("fa-eye");
+          } else if (
+            $("#show_hide_password input").attr("type") == "password"
+          ) {
+            $("#show_hide_password input").attr("type", "text");
+            $("#show_hide_password i").removeClass("fa-eye-slash");
+            $("#show_hide_password i").addClass("fa-eye");
           }
         });
 
-        $("#addDonation").click(function (e) {
-          donorName = $("#donarName").val();
-          donorMobile = $("#donarMobile").val();
-          donorAmount = $("#DonationAmount").val();
-          familyMember = $("#nameList").val();
+        $("#bt_login").click(function () {
+           username = $("#tf_username").val();
+           password = $("#tf_password").val();
 
-          if (aeEmpty(donorName)) {
-            aeTitle = "ENTER DONOR'S NAME";
-            aeBody = "ENTER VALID NAME FOR  DONOR.";
-            $("#aeAlertTitle").text(aeTitle);
-            $("#aeAlertBody").text(aeBody);
-            $("#aeAlert").modal("show");
+          username = username.trim();
+          password = password.trim();
 
-            return;
-          }  else if (((donorMobile.length >0))&&(donorMobile.length != 10)) {
-            aeTitle = "WRONG DONOR MOBILE";
-            aeBody = "ENTER VALID MOBILE FOR  DONOR.";
+          if (aeEmpty(username)) {
+            aeTitle = "ENTER USER NAME!";
+            aeBody = "PLEASE ENTER USERNAME";
             $("#aeAlertTitle").text(aeTitle);
             $("#aeAlertBody").text(aeBody);
             $("#aeAlert").modal("show");
             return;
-          } else if (aeEmpty(familyMember)) {
-            aeTitle = "CHOOSE FAMILY MEMBER ";
-            aeBody = "SELECT A FAMILY MEMBER NAME";
+          } else if (aeEmpty(password)) {
+            aeTitle = "ENTER PASSWORD";
+            aeBody = "PLEASE ENTER PASSWORD";
             $("#aeAlertTitle").text(aeTitle);
             $("#aeAlertBody").text(aeBody);
             $("#aeAlert").modal("show");
             return;
+          } else {
+       
+            validateLogin();
           }
-
-          if (familyMember == "To this Family Member") {
-            aeTitle = "CHOOSE FAMILY MEMBER ";
-            aeBody = "SELECT A FAMILY MEMBER NAME";
-            $("#aeAlertTitle").text(aeTitle);
-            $("#aeAlertBody").text(aeBody);
-            $("#aeAlert").modal("show");
-            return;
-          } else if (aeEmpty(donorAmount)) {
-            aeTitle = "ENTER AMOUNT";
-            aeBody = "ENTER VALID AMOUNT TO BE DONATED.";
-            $("#aeAlertTitle").text(aeTitle);
-            $("#aeAlertBody").text(aeBody);
-            $("#aeAlert").modal("show");
-            return;
-          } else if (donorAmount == 0) {
-            aeTitle = "DONATION AMOUNT CANNOT BE ZERO";
-            aeBody = "DONATION AMOUNT MUST BE MORE THAN 0";
-            $("#aeAlertTitle").text(aeTitle);
-            $("#aeAlertBody").text(aeBody);
-            $("#aeAlert").modal("show");
-            return;
-          }
-
-          e.preventDefault();
-
-          insertDonation();
-
-          var ck = $("#ckSMS").is(":checked");
-        });
-
-        $("#myMAddNewName").on("click", "#btMdelete", function (e) {
-          e.preventDefault();
-          nameDel = $("#tfMaddName").val();
-
-          $("#nametodelete").text(nameDel);
-
-          $("#myMAddDelete").modal("show");
-        });
-
-        $("#myMAddDelete").on("click", "#btMContinue", function (e) {
-          e.preventDefault();
-          $("#myMAddDelete").modal("hide");
-
-          $.post(
-            "deleteMember.php",
-            {
-              nameToDelete: nameDel,
-            },
-            function (data, status) {
-              $("#myMAddNewName").modal("hide");
-              location.href = "index.php";
-            }
-          );
-        });
-
-        $("#btAddNewName").click(function () {
-          var e = document.getElementById("nameList");
-          var value = e.value;
-
-          if (value == "To this Family Member") {
-            value = "";
-          }
-
-          nameDel = $("#tfMaddName").val(value);
-          $("#myMAddNewName").modal("show");
-        });
-
-        $("#myMAddNewName").on("click", "#btMadd", function (e) {
-          e.preventDefault();
-          var name = $("#tfMaddName").val();
-          try {
-            var myN = name.toUpperCase();
-            name = myN;
-          } catch (error) {}
-
-          $.post(
-            "addNewFamilyMember.php",
-            {
-              newName: name,
-            },
-            function (data, status) {
-              $("#myMAddNewName").modal("hide");
-
-              updateList();
-            }
-          );
         });
       });
     </script>
   </head>
   <body>
-
-    <a class="btn btn-primary sticky-top" href="PDF.php?data" target="_blank">System Report  <i class="bi bi-filetype-pdf"></i></a>
-    
     <div class="h-100 d-flex align-items-center justify-content-center m-1">
       <div
         class="h-100 d-flex align-items-center justify-content-center m-auto"
       >
         <form id="form">
           <div class="form-outline mb-2 text-center">
-            <h3>
-              Receive Donation
-              <i class="bi bi-cash"></i>
-            </h3>
+            <h3>USER LOGIN</h3>
+            <i style="font-size: 2rem" class="bi bi-lock-fill"></i>
           </div>
 
-          <!--  input -->
+          <!-- Email input -->
           <div class="form-outline mb-2">
             <input
-              required
-              type="text"
-              id="donarName"
+              type="email"
+              id="tf_username"
               class="form-control"
-              placeholder="Donor's name"
+              placeholder="Username"
               style="font-weight: bold; color: black; background-color: white"
             />
           </div>
-          <div class="form-outline mb-2">
-            <input
-              required
-              type="tel"
-              pattern="[0-9]{10}"
-              id="donarMobile"
-              class="form-control"
-              placeholder="Donor's Mobile"
-              style="font-weight: bold; color: black; background-color: white"
-            />
-          </div>
-          <!--end  input -->
 
-          <!--  input -->
-          <div class="form-outline mb-2">
-            <select
-              id="nameList"
-              style="font-weight: bold"
-              class="form-select w-100"
-            >
-              <option selected>To this Family Member</option>
-            </select>
-          </div>
-          <!--end  input -->
-          <!--  input -->
-          <div class="form-outline mb-2">
+          <!-- Password input -->
+          <div class="input-group mb-2" id="show_hide_password">
             <input
-              required
-              type="number"
-              min="0"
-              id="DonationAmount"
-              class="form-control"
-              placeholder="Donation Amount (GHS)"
+              class="form-control w-100"
+              id="tf_password"
+              type="password"
+              placeholder="Password"
               style="font-weight: bold; color: black; background-color: white"
             />
+
+            <span>
+              <a id="sp" href="">
+                <i
+                  id="eyeID"
+                  style="color: rgb(33, 3, 51)"
+                  class="fa fa-eye-slash"
+                  aria-hidden="true"
+                ></i
+              ></a>
+            </span>
           </div>
-          <!--end  input -->
 
           <div class="form-outline mb-2">
             <button
-              id="addDonation"
+              id="bt_login"
               style="font-weight: bold"
               class="btn-primary w-100"
+              type="button"
             >
-              Add Donation
+              Login <i id="loading" class="fa fa-spinner fa-spin fa-fw"></i>
             </button>
           </div>
-          <div class="row">
-            <div class="col-6">
-              <button
-                onclick="editDon()"
-                style="font-weight: bold"
-                class="btn-primary w-100"
-                type="button"
-              >
-                View<i class="fa fa-pencil" aria-hidden="true"></i>
-              </button>
-            </div>
-            <div class="col-6">
-              <button
-                id="btAddNewName"
-                style="font-weight: bold"
-                class="btn-primary w-100"
-                type="button"
-              >
-                Name <i class="fa fa-user" aria-hidden="true"></i>
-              </button>
-            </div>
-          </div>
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value=""
-              id="ckReceipt"
-              checked
-            />
-            <label class="form-check-label" for="ckReceipt">
-              <i class="bi bi-receipt"></i>
-              Auto print receipt
-            </label>
-          </div>
-
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value=""
-              id="ckSMS"
-              checked
-            />
-            <label class="form-check-label" for="ckSMS">
-              <i class="bi bi-chat-dots-fill"></i>
-              Auto send SMS
-            </label>
-          </div>
-
-          <hr />
-
-          <h5>
-            Received Today
-
-            <span style="font-size: 5r3m">
-              &nbsp; <span style="font-size: small">GHS</span></span
-            >
-            <span style="text-decoration: underline" id="received_today"></span>
-          </h5>
-          <h5>
-            Total received
-            <span style="font-size: 5r3m">
-              &nbsp; <span style="font-size: small">GHS</span></span
-            >
-            <span style="text-decoration: underline" id="total_received"></span>
-          </h5>
 
           <!-- 2 column grid layout for inline styling -->
           <div class="row mb-4">
             <div class="col d-flex justify-content-start">
               <!-- Checkbox -->
+              <div class="form-check justify-content-lg-start">
+                <a style="font-weight: bold; color: white" href="user_signup.html"
+                  >New User?</a
+                >
+                <br />
+              </div>
             </div>
           </div>
         </form>
       </div>
     </div>
-
-    <!-- Modal HTML -->
-    <div id="myMAddNewName" class="modal fade" tabindex="-3">
-      <div class="modal-dialog" style="width: 20rem">
-        <div class="modal-content">
-          <div style="background-color: aqua" class="modal-header">
-            <h5 class="modal-title">Add New Name to List</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <label for="tfMaddName">Enter Name</label>
-            <input id="tfMaddName" type="text" placeholder="New Name" />
-          </div>
-          <div style="background-color: aqua" class="modal-footer">
-            <button id="btMadd" type="button" class="btn btn-primary">
-              Add Name
-            </button>
-            <button id="btMdelete" type="button" class="btn btn-danger">
-              Delete <i class="fa fa-trash" aria-hidden="true"></i>
-            </button>
-            <button
-              type="button"
-              class="btn btn-danger"
-              data-bs-dismiss="modal"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- END MODAL -->
-
-    <!-- Modal HTML -->
-    <div id="myMAddDelete" class="modal fade" tabindex="-3">
-      <div class="modal-dialog" style="width: 20rem">
-        <div class="modal-content">
-          <div style="background-color: aqua" class="modal-header">
-            <h5 class="modal-title">CONFIRM DELETION</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <h6 id="nametodelete" style="color: red; background-color: white">
-              **********
-            </h6>
-            <h6>
-              DO YOU WANT TO DELETE THIS FAMILY MEMBER?
-
-              <h6>ALL DATA FOR THIS MEMBER WILL BE REMOVED.</h6>
-              <span style="font-style: italic; text-decoration: underline"
-                >NB: you cannot Undo this operation</span
-              >
-            </h6>
-          </div>
-          <div style="background-color: aqua" class="modal-footer">
-            <button id="btMContinue" type="button" class="btn btn-danger">
-              Delete <i class="fa fa-trash" aria-hidden="true"></i>
-            </button>
-            <button
-              id="btMdelete"
-              type="button"
-              class="btn btn-primary"
-              data-bs-dismiss="modal"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- END MODAL -->
 
     <!-- Modal HTML -->
     <div id="aeAlert" class="modal fade" tabindex="-3">
@@ -481,50 +212,35 @@
 
     <!-- END MODAL -->
 
+        <!-- BEGIN AEMODEL-->
+        <div id="aeMdSuccess" class="modal" tabindex="-1">
+          <div
+            style="max-width: 20rem; background-color: gray"
+            class="modal-dialog"
+          >
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 id="aeMTitle" class="modal-title"><strong>SUCCESS!</strong></h5>
+              </div>
+              <div class="modal-body">
+                <p id="aeMBody">Action Performed successfully.</p>
+              </div>
+              <div class="modal-footer">
+                <button
+                  id="btClose"
+                  type="button"
+                  class="btn btn-primary"
+                  data-bs-dismiss="modal"
+                >
+                  Ok
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- END AEMODEL-->
+
     <script>
-      function updateList() {
-        $.ajax({
-          url: "selectMemberList.php",
-          type: "get",
-          dataType: "JSON",
-          success: function (response) {
-            //alert(response)
-            var len = response.length;
-
-            try {
-              $("#nameList")
-                .empty()
-                .append(
-                  '<option selected="selected" >To this Family Member</option>'
-                );
-
-              for (let i = 1; i < len; i++) {
-                var nam = response[i].item;
-
-                var o = new Option(nam);
-                /// jquerify the DOM object 'o' so we can use the html method
-                $(o).html(nam);
-                $("#nameList").append(o);
-              }
-
-              $("option").css({
-                "font-weight": "bold",
-              });
-            } catch (error) {
-              alert(error);
-            }
-
-            // var li = response[1].newName;
-
-            return;
-          },
-
-          error: function (request, status, error) {
-            alert(request.responseText);
-          },
-        });
-      }
-
       function aeEmpty(e) {
         var ee = "";
         try {
@@ -548,29 +264,22 @@
           return true;
         }
       }
+    </script>
 
-      function isNumber(n) {
-        return !isNaN(parseFloat(n)) && isFinite(n);
-      }
+    <script>
+      
+     function validateLogin(){
 
-      function sendSMS() {
-          var sms =
-            "We have received your Donation amount of GHS  " +
-            donorAmount +
-            " \n" +
-            familyMember +
-            " and \n" +
-            " and the Entire family are very glad for your Donation.";
-
-            $.ajax({
+      $.ajax({
           type: "post",
           data: {
-            receiver: donorMobile,
-            message:sms
+            username: username,
+            password:password
+           
 
           },
           cache: false,
-          url: "SMS.php",
+          url: "validateLogin.php",
           dataType: "text",
           error: function (xhr, status, error) {
             var err = eval("(" + xhr.responseText + ")");
@@ -578,98 +287,35 @@
           },
 
           success: function (data,status) {
-            //alert(data);
-          },
-        });
+            $("#loading").hide();
 
+            if(data==0){
 
-
-            
-    
-
-
-
-      }
-
-
-      function insertDonation() {
-        $.ajax({
-          type: "post",
-          data: {
-            donorName: donorName,
-            donorMobile,
-            donorMobile,
-            donorAmount,
-            donorAmount,
-            familyMember,
-            familyMember,
-          },
-          cache: false,
-          url: "insertDonation.php",
-          dataType: "text",
-          error: function (xhr, status, error) {
-            var err = eval("(" + xhr.responseText + ")");
-            alert(err.Message);
-          },
-
-          success: function (data, status) {
-          
-            var ck=$("#ckSMS").is(":checked");
-
-            if(ck){
-              if(donorMobile.length===10){
-            
-                sendSMS();
-              }
-            }
-        
-
-         
-            aeTitle = "SUCCESS!";
-            aeBody = "DONATION RECORDED SUCCESSFULLY.";
+              aeTitle = "INVALID LOGIN ATTEMPT";
+            aeBody = "PLEASE ENTER VALID LOGIN DETAILS";
             $("#aeAlertTitle").text(aeTitle);
             $("#aeAlertBody").text(aeBody);
             $("#aeAlert").modal("show");
 
-            $("#aeAlert").on("hidden.bs.modal", function () {
-              location.href = "index.php";
-            });
+            }
+            else if(data==1){
 
-            return;
+              location.href="donation.html"
+            }
+            else if(data==2){
+              location.href="expense.html"
+
+            }
+            else if(data==900){
+              location.href="admin.html"
+
+            }
+
+        
+          
           },
         });
-      }
-
-      function getTotalDonation() {
-        $.ajax({
-          type: "post",
-          cache: false,
-          url: "selectDonation.php",
-          dataType: "text",
-          error: function (xhr, status, error) {
-            var err = eval("(" + xhr.responseText + ")");
-            alert(err.Message);
-          },
-
-          success: function (data, status) {
-            var output = data.split("|");
-
-            var total_today = output[0];
-            var total_All = output[1];
-
-            $("#received_today").text(total_today);
-            $("#total_received").text(total_All);
-
-            // alert(total_today+" "+total_All);
-
-            return;
-          },
-        });
-      }
-
-      function editDon() {
-        location.replace("editDonation.html");
-      }
+     }
     </script>
 
     <script
