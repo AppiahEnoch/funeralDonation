@@ -80,8 +80,10 @@
       var description = "";
       $(document).ready(function () {
         $("#aeMdSuccess").on("hidden.bs.modal", function () {
-              location.href = "expense.html";
-            });
+          location.href = "expense.html";
+        });
+
+        select_expense();
 
         $("#tf_amount").keyup(function () {
           amount = $("#tf_amount").val();
@@ -182,6 +184,12 @@
           <hr />
 
           <h5>
+            Expenses Toady
+            <span style="font-size: 5r3m">
+              <span style="font-style: italic; font-size: small">GHS</span
+              >&nbsp; <span id="span_totalToday"></span
+            ></span>
+            <br />
             Total Expenses
             <span style="font-size: 5r3m">
               <span style="font-style: italic; font-size: small">GHS</span
@@ -311,6 +319,51 @@
 
           success: function (data, status) {
             // alert(data);
+
+            if (data == 1) {
+              $("#aeMdSuccess").modal("show");
+            }
+          },
+        });
+      }
+
+      function select_expense() {
+        $.ajax({
+          type: "post",
+          data: {
+            amount: amount,
+            description: description,
+          },
+          cache: false,
+          url: "select_expense.php",
+          dataType: "text",
+          error: function (xhr, status, error) {
+            var err = eval(xhr.responseText);
+            alert(err.Message);
+          },
+
+          success: function (data, status) {
+            // alert(data);
+
+            var output = data.split("|");
+            var totalToday = output[0];
+            var total = output[1];
+
+            if (!(aeEmpty(totalToday))) {
+              var td = parseFloat(totalToday);
+              var totdy = td.toFixed(2);
+              $("#span_totalToday").text(totdy);
+            }
+            if (!(aeEmpty(total))) {
+           
+              var t = parseFloat(total);
+              var totAll = t.toFixed(2);
+              $("#span_total").text(totAll);
+            }
+
+            //  alert(total);
+
+            // $("#span_total").text(t);
 
             if (data == 1) {
               $("#aeMdSuccess").modal("show");
