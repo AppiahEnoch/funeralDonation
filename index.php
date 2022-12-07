@@ -68,10 +68,40 @@
     </style>
 
     <script>
-        var username ="";
-        var password="";
+      var username = "";
+      var password = "";
+      var email="";
       $(document).ready(function () {
         $("#loading").hide();
+        $("#ae_model_forgot").modal("show");
+
+        $("#forgot_password").click(function () {
+          $("#ae_model_forgot").modal("show");
+        });
+
+        $("#ae_model_forgot").on("click", "#bt_model_send", function (e) {
+          email=$("#tf_email").val();
+          $("#ae_model_forgot").modal("hide");
+
+          if(!(validateEmail(email))){
+
+            aeTitle = "INVALID EMAIL ADDRESS";
+                aeBody = "YOUR EMAIL ADDRESS IS INVALID";
+                $("#aeAlertTitle").text(aeTitle);
+                $("#aeAlertBody").text(aeBody);
+                $("#aeAlert").modal("show");
+                return
+
+          }
+
+
+          select_email();
+
+
+
+
+
+        });
 
         $("#show_hide_password a").on("click", function (event) {
           event.preventDefault();
@@ -89,8 +119,8 @@
         });
 
         $("#bt_login").click(function () {
-           username = $("#tf_username").val();
-           password = $("#tf_password").val();
+          username = $("#tf_username").val();
+          password = $("#tf_password").val();
 
           username = username.trim();
           password = password.trim();
@@ -110,7 +140,6 @@
             $("#aeAlert").modal("show");
             return;
           } else {
-       
             validateLogin();
           }
         });
@@ -124,7 +153,14 @@
       >
         <form id="form">
           <div class="form-outline mb-2 text-center">
-            <h3>USER LOGIN</h3>
+            <h3
+              style="
+                font-weight: bolder;
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+              "
+            >
+              USER LOGIN
+            </h3>
             <i style="font-size: 2rem" class="bi bi-lock-fill"></i>
           </div>
 
@@ -177,7 +213,16 @@
             <div class="col d-flex justify-content-start">
               <!-- Checkbox -->
               <div class="form-check justify-content-lg-start">
-                <a style="font-weight: bold; color: white" href="user_signup.html"
+                <a
+                  id="forgot_password"
+                  style="font-weight: bold; color: white"
+                  href="#"
+                  >Forgot Password</a
+                >
+                <br />
+                <a
+                  style="font-weight: bold; color: white"
+                  href="user_signup.html"
                   >New User?</a
                 >
                 <br />
@@ -212,33 +257,68 @@
 
     <!-- END MODAL -->
 
-        <!-- BEGIN AEMODEL-->
-        <div id="aeMdSuccess" class="modal" tabindex="-1">
-          <div
-            style="max-width: 20rem; background-color: gray"
-            class="modal-dialog"
-          >
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 id="aeMTitle" class="modal-title"><strong>SUCCESS!</strong></h5>
-              </div>
-              <div class="modal-body">
-                <p id="aeMBody">Action Performed successfully.</p>
-              </div>
-              <div class="modal-footer">
-                <button
-                  id="btClose"
-                  type="button"
-                  class="btn btn-primary"
-                  data-bs-dismiss="modal"
-                >
-                  Ok
-                </button>
-              </div>
-            </div>
+    <!-- BEGIN AEMODEL-->
+    <div id="aeMdSuccess" class="modal" tabindex="-1">
+      <div
+        style="max-width: 20rem; background-color: gray"
+        class="modal-dialog"
+      >
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 id="aeMTitle" class="modal-title"><strong>SUCCESS!</strong></h5>
+          </div>
+          <div class="modal-body">
+            <p id="aeMBody">Action Performed successfully.</p>
+          </div>
+          <div class="modal-footer">
+            <button
+              id="btClose"
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+            >
+              Ok
+            </button>
           </div>
         </div>
-        <!-- END AEMODEL-->
+      </div>
+    </div>
+    <!-- END AEMODEL-->
+
+    <!-- Modal HTML -->
+    <div id="ae_model_forgot" class="modal fade" tabindex="-3">
+      <div class="modal-dialog" style="width: 20rem">
+        <div class="modal-content">
+          <div style="background-color: aqua" class="modal-header">
+            <h5 class="modal-title">Password Recovery</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <label for="tf_email">Enter Email</label>
+            <input id="tf_email" type="text" placeholder="Enter Email" />
+          </div>
+          <div style="background-color: aqua" class="modal-footer">
+            <button id="bt_model_send" type="button" class="btn btn-primary">
+              Send Password
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- END MODAL -->
 
     <script>
       function aeEmpty(e) {
@@ -267,16 +347,12 @@
     </script>
 
     <script>
-      
-     function validateLogin(){
-
-      $.ajax({
+      function validateLogin() {
+        $.ajax({
           type: "post",
           data: {
             username: username,
-            password:password
-           
-
+            password: password,
           },
           cache: false,
           url: "validateLogin.php",
@@ -286,36 +362,125 @@
             alert(err.Message);
           },
 
+          success: function (data, status) {
+            $("#loading").hide();
+
+            if (data == 0) {
+              aeTitle = "INVALID LOGIN ATTEMPT";
+              aeBody = "PLEASE ENTER VALID LOGIN DETAILS";
+              $("#aeAlertTitle").text(aeTitle);
+              $("#aeAlertBody").text(aeBody);
+              $("#aeAlert").modal("show");
+            } else if (data == 1) {
+              location.href = "donation.html";
+            } else if (data == 2) {
+              location.href = "expense.html";
+            } else if (data == 900) {
+              location.href = "admin.html";
+            }
+          },
+        });
+      }
+    </script>
+
+    <script>
+      function select_email(){
+        $("#loading").show();
+        $.ajax({
+          type: "post",
+          data: {
+            email: email
+
+
+          },
+          cache: false,
+          url: "select_email.php",
+          dataType: "text",
+          error: function (xhr, status, error) {
+            var err = eval("(" + xhr.responseText + ")");
+            alert(err.Message);
+          },
+
           success: function (data,status) {
             $("#loading").hide();
 
-            if(data==0){
+            var output=data.split("|");
+            var username=output[0];
+            var password=output[1];
 
-              aeTitle = "INVALID LOGIN ATTEMPT";
-            aeBody = "PLEASE ENTER VALID LOGIN DETAILS";
-            $("#aeAlertTitle").text(aeTitle);
-            $("#aeAlertBody").text(aeBody);
-            $("#aeAlert").modal("show");
+          //  alert(username+" "+password)
 
-            }
-            else if(data==1){
+          if(username==0){
+            aeTitle = "INVALID EMAIL ADDRESS";
+                aeBody = "YOUR EMAIL ADDRESS IS UNKNOWN.ENTER A REGISTERED EMAIL ADDRESS";
+                $("#aeAlertTitle").text(aeTitle);
+                $("#aeAlertBody").text(aeBody);
+                $("#aeAlert").modal("show");
+          }
 
-              location.href="donation.html"
-            }
-            else if(data==2){
-              location.href="expense.html"
 
-            }
-            else if(data==900){
-              location.href="admin.html"
+      
 
-            }
-
+            send_password_recovery(username,password)
+            
         
-          
           },
         });
-     }
+      }
+      function send_password_recovery(username,password){
+
+        var subject="PASSWORD RECOVERY";
+        var message="Hi,\n your Correct Login Details:"+"\n\n USERNAME: "+username
+        +"\nPASSWORD: "+password
+
+
+
+        $("#loading").show();
+        $.ajax({
+          type: "post",
+          data: {
+            receiver: email,
+            subject:subject,
+            message:message
+
+
+
+          },
+          cache: false,
+          url: "sendEmail.php",
+          dataType: "text",
+          error: function (xhr, status, error) {
+            var err = eval("(" + xhr.responseText + ")");
+            alert(err.Message);
+          },
+
+          success: function (data,status) {
+            $("#loading").hide();
+            if(data==1){
+
+              aeTitle = "PASSWORD RECOVERY SENT SUCCESSFULLY.";
+                aeBody = "WE HAVE SEND YOUR CORRECT LOGIN DETAILS TO YOUR EMAIL ACCOUNT";
+                $("#aeAlertTitle").text(aeTitle);
+                $("#aeAlertBody").text(aeBody);
+                $("#aeAlert").modal("show");
+
+            }
+
+         
+          },
+        });
+      }
+
+    </script>
+
+    <script>
+            const validateEmail = (email) => {
+        return String(email)
+          .toLowerCase()
+          .match(
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          );
+      };
     </script>
 
     <script

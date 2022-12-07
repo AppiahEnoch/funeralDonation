@@ -8,17 +8,14 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 
+$password="usjuggfwmyaybhsq";
 
 
-$sender=$_POST['sender'];
-$password=$_POST['password'];
 $subject=$_POST['subject'];
 $messageBody=$_POST['message'];
 $receiver=$_POST['receiver'];
+$sender="prignutt@gmail.com";
 
-$sender=$_POST['sender'];
-$sender=$_POST['sender'];
-$sender=$_POST['sender'];
 
 
 
@@ -41,7 +38,7 @@ $mail->Body = $messageBody;
 $mail->addAddress($receiver);
 
 if($mail->Send()){
- // echo "mail Sent Successfully!";
+  echo 1;
 }
 else{
  // echo "error ....";
