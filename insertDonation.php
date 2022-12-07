@@ -85,7 +85,7 @@ function inputsAreCorrect( $arrayOfAllNames) {
 
 
 
-  
+  echo 4;
 // prepare and bind
 try{
 
