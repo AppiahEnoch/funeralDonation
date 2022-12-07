@@ -52,6 +52,8 @@
         -moz-box-shadow: -1px 3px 18px 0px rgba(0, 0, 0, 0.75);
         box-shadow: -1px 3px 18px 0px rgba(0, 0, 0, 0.75);
       }
+
+
     </style>
 
     <style>
@@ -62,6 +64,18 @@
         z-index: 2000;
         float: right;
       }
+
+
+      #bt_logout{
+     line-height: 12px;
+     width: 18px;
+     font-size: 18pt;
+     margin: .7rem;
+     position:absolute;
+     top:0;
+     right:0;
+     color: blue;
+ }
     </style>
 
     <script>
@@ -76,8 +90,8 @@
 
 
       $(document).ready(function () {
-        updateList();
-        getTotalDonation();
+       // updateList();
+       // getTotalDonation();
 
         
 
@@ -229,10 +243,19 @@
     <a class="btn btn-primary sticky-top" href="PDF.php?data" target="_blank">System Report  <i class="bi bi-filetype-pdf"></i></a>
     
     <div class="h-100 d-flex align-items-center justify-content-center m-1">
+      
       <div
         class="h-100 d-flex align-items-center justify-content-center m-auto"
       >
+    
         <form id="form">
+  
+           <a   id="bt_logout"  href="index.php">
+            <i class="fa fa-sign-out" aria-hidden="true"></i>
+           </a>
+  
+         
+
           <div class="form-outline mb-2 text-center">
             <h3>
               Receive Donation
