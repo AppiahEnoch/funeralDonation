@@ -62,6 +62,18 @@
         z-index: 2000;
         float: right;
       }
+
+
+      #bt_logout{
+     line-height: 12px;
+     width: 18px;
+     font-size: 18pt;
+     margin: .7rem;
+     position:absolute;
+     top:0;
+     right:0;
+     color: blue;
+ }
     </style>
 
     <script>
@@ -77,6 +89,11 @@
         class="h-100 d-flex align-items-center justify-content-center m-auto"
       >
         <form id="form">
+
+          <a   id="bt_logout"  href="index.php">
+            <i class="fa fa-sign-out" aria-hidden="true"></i>
+           </a>
+
           <div class="form-outline mb-2 text-center">
             <h3>
               Record Expense
@@ -130,12 +147,7 @@
           <div class="row mb-4">
             <div class="col d-flex justify-content-start">
               <!-- Checkbox -->
-              <div class="form-check justify-content-lg-start">
-                <a style="font-weight: bold; color: blue" href="index.php"
-                  >Record Donation?</a
-                >
-                <br />
-              </div>
+        
             </div>
           </div>
         </form>
