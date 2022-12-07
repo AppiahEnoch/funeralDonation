@@ -85,11 +85,10 @@ function inputsAreCorrect( $arrayOfAllNames) {
 
 
 
-  echo 4;
 // prepare and bind
 try{
 
-$stmt = $conn->prepare("INSERT INTO donation (donor, donormobile, amount,familymember) VALUES (?, ?, ?,?)");
+$stmt = $conn->prepare("INSERT INTO donation(donor, donormobile, amount,familymember) VALUES (?, ?, ?,?)");
 $stmt->bind_param("ssss", $donorName, $donorMobile, $donorAmount,$familyMember);
 
 
