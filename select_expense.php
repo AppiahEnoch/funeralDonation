@@ -4,6 +4,8 @@ require_once "config.php";
 $totalAmount="";
 $totalToday="";
 
+
+
 try {
 
   $return_arr[] = null;
@@ -33,8 +35,6 @@ if (mysqli_num_rows($result) > 0) {
   if($row = mysqli_fetch_assoc($result)) {
 
       $totalToday= $row ["total_amount"];
-
-
   }
 
 
@@ -42,11 +42,7 @@ if (mysqli_num_rows($result) > 0) {
 }
 
 
-
-
-
 echo "$totalToday|$totalAmount";
-
 
 $conn->close();
 ?> 

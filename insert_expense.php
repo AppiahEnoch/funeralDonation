@@ -84,14 +84,16 @@ function inputsAreCorrect( $arrayOfAllNames) {
   }
 
 
-
+session_start();
+$_SESSION["responsible"]="0549822203";
+  $person=$_SESSION["responsible"];
   
 // prepare and bind
 try{
 
 $stmt = $conn->prepare("INSERT INTO expense
- (amount, `description`) VALUES (?, ?)");
-$stmt->bind_param("ss", $amount, $description);
+ (amount, `description`,contact) VALUES (?, ?,?)");
+$stmt->bind_param("sss", $amount, $description,$person);
  $stmt->execute();
 
  echo 1;
