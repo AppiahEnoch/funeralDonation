@@ -1,16 +1,25 @@
 <?php
 
-try {
-    $hostname = "localhost";
-    $username = "root";
-    $password = "";
-    $database = "funeraldonation";
-    $port = "63947";
-  // $conn = mysqli_connect($hostname, $username, $password, $database,$port) or die("Database connection failed");
-    
-} catch (Throwable $th) {
-    //throw $th;
+$conn ="";
+$currentHost= gethostname(); 
+
+if($currentHost=="AECleanCodes"){
+    try {
+        $hostname = "localhost";
+        $username = "root";
+        $password = "";
+        $database = "funeraldonation";
+        $port = "63947";
+       $conn = mysqli_connect($hostname, $username, $password, $database,$port) or die("Database connection failed");
+ 
+    } catch (Throwable $th) {
+        //throw $th;
+    }
+
 }
+else{
+
+
 /*
 // heroku
 $hostname = "us-cdbr-east-06.cleardb.net";
@@ -46,4 +55,12 @@ $port = "6760";
 $conn = mysqli_connect($hostname, $username, $password, $database,$port) or die("Database connection failed");
 
 //*/
+
+
+
+
+}
+
+
+
 ?>
