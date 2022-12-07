@@ -159,7 +159,7 @@ if (mysqli_num_rows($result) > 0) {
 
     $pdf->Cell(30,6,$id,1,0);
     $pdf->Cell(30,6,$amount,1,0);
-    $pdf->SetFont('Arial', '', 10);
+    $pdf->SetFont('Arial', 'B', 10);
     $pdf->Cell(92,6,$shortMember,1,0);
     $pdf->SetFont('Arial', 'B', 12);
     $pdf->Cell(45,6,$recordDate,1,0);
