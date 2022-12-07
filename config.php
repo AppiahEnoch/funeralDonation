@@ -46,12 +46,12 @@ $conn = mysqli_connect($hostname, $username, $password, $database,$port) or die(
 
 
 //*
-
-$hostname = "containers-us-west-136.railway.app";
-$username = "root";
-$password = "udP3mK6QMDUpTa6zCfO4";
-$database = "railway";
-$port = "6760";
+//$password = "udP3mK6QMDUpTa6zCfO4";
+$hostname = $_ENV["MYSQLHOST"];
+$username = $_ENV["MYSQLUSER"];
+$password = $_ENV["MYSQLPASSWORD"];
+$database = $_ENV["MYSQLDATABASE"];
+$port =$_ENV["MYSQLPORT"];
 $conn = mysqli_connect($hostname, $username, $password, $database,$port) or die("Database connection failed");
 
 //*/
