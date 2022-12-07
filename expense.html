@@ -63,39 +63,41 @@
         float: right;
       }
 
-
-      #bt_logout{
-     line-height: 12px;
-     width: 18px;
-     font-size: 18pt;
-     margin: .7rem;
-     position:absolute;
-     top:0;
-     right:0;
-     color: blue;
- }
+      #bt_logout {
+        line-height: 12px;
+        width: 18px;
+        font-size: 18pt;
+        margin: 0.7rem;
+        position: absolute;
+        top: 0;
+        right: 0;
+        color: blue;
+      }
     </style>
 
     <script>
-               var amount="";
-               var description="";
+      var amount = "";
+      var description = "";
       $(document).ready(function () {
+        $("#aeMdSuccess").on("hidden.bs.modal", function () {
+              location.href = "expense.html";
+            });
 
-        $("#tf_amount").keyup(function(){
-          amount=$("#tf_amount").val();
-       
-          if(!(isNumber(amount))){
-            $("#tf_amount").val('');
+        $("#tf_amount").keyup(function () {
+          amount = $("#tf_amount").val();
+
+          if (!isNumber(amount)) {
+            $("#tf_amount").val("");
             return;
           }
-        })
+        });
 
+        $("#bt_add").click(function (event) {
+          event.preventDefault();
+          amount = $("#tf_amount").val();
+          description = $("#tf_description").val();
 
-        $("#bt_add").click(function(){
-          amount=$("#tf_amount").val();
-          description=$("#tf_description").val();
-
-          if(aeEmpty(amount)){
+          if (aeEmpty(amount)) {
             aeTitle = "ENTER AMOUNT";
             aeBody = "PLEASE ENTER AMOUNT (GHS)";
             $("#aeAlertTitle").text(aeTitle);
@@ -103,21 +105,18 @@
             $("#aeAlert").modal("show");
 
             return;
-          }
-          else if(aeEmpty(description)){
+          } else if (aeEmpty(description)) {
             aeTitle = "ENTER DESCRIPTION";
             aeBody = "DESCRIBE THE KING OF EXPENSE BEING RECORDED.";
             $("#aeAlertTitle").text(aeTitle);
             $("#aeAlertBody").text(aeBody);
             $("#aeAlert").modal("show");
 
+            return;
           }
-          
 
-
-        })
-
-
+          insert_expense();
+        });
       });
     </script>
   </head>
@@ -130,10 +129,9 @@
         class="h-100 d-flex align-items-center justify-content-center m-auto"
       >
         <form id="form">
-
-          <a   id="bt_logout"  href="index.php">
+          <a id="bt_logout" href="index.php">
             <i class="fa fa-sign-out" aria-hidden="true"></i>
-           </a>
+          </a>
 
           <div class="form-outline mb-2 text-center">
             <h3>
@@ -173,7 +171,11 @@
           <!--end  input -->
 
           <div class="form-outline mb-2">
-            <button id="bt_add" style="font-weight: bold" class="btn-primary w-100">
+            <button
+              id="bt_add"
+              style="font-weight: bold"
+              class="btn-primary w-100"
+            >
               Add Expense
             </button>
           </div>
@@ -181,20 +183,21 @@
 
           <h5>
             Total Expenses
-            <span style="font-size: 5r3m"> <span style="font-style:italic  ; font-size: small;" >GHS</span>&nbsp; <span id="span_total"></span></span>
+            <span style="font-size: 5r3m">
+              <span style="font-style: italic; font-size: small">GHS</span
+              >&nbsp; <span id="span_total"></span
+            ></span>
           </h5>
 
           <!-- 2 column grid layout for inline styling -->
           <div class="row mb-4">
             <div class="col d-flex justify-content-start">
               <!-- Checkbox -->
-        
             </div>
           </div>
         </form>
       </div>
     </div>
-
 
     <!-- Modal HTML -->
     <div id="aeAlert" class="modal fade" tabindex="-3">
@@ -220,14 +223,40 @@
 
     <!-- END MODAL -->
 
+    <!-- BEGIN AEMODEL-->
+    <div id="aeMdSuccess" class="modal" tabindex="-1">
+      <div
+        style="max-width: 20rem; background-color: gray"
+        class="modal-dialog"
+      >
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 id="aeMTitle" class="modal-title"><strong>SUCCESS!</strong></h5>
+          </div>
+          <div class="modal-body">
+            <p id="aeMBody">Expense Recorded successfully.</p>
+          </div>
+          <div class="modal-footer">
+            <button
+              id="btClose"
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+            >
+              Ok
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END AEMODEL-->
 
     <script>
-           function validate_mobile_g(mobile) {
-        var phoneRe =/^[0-9]{10}$/ ;
+      function validate_mobile_g(mobile) {
+        var phoneRe = /^[0-9]{10}$/;
         var digits = mobile.replace(/\D/g, "");
         return phoneRe.test(digits);
       }
-
 
       const validateEmail = (email) => {
         return String(email)
@@ -237,9 +266,7 @@
           );
       };
 
-
-
-function aeEmpty(e) {
+      function aeEmpty(e) {
         var ee = "";
         try {
           ee = e.trim();
@@ -262,11 +289,35 @@ function aeEmpty(e) {
           return true;
         }
       }
-      
 
-function isNumber(n) {
-  return !isNaN(parseFloat(n)) && isFinite(n);
-}
+      function isNumber(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+      }
+
+      function insert_expense() {
+        $.ajax({
+          type: "post",
+          data: {
+            amount: amount,
+            description: description,
+          },
+          cache: false,
+          url: "insert_expense.php",
+          dataType: "text",
+          error: function (xhr, status, error) {
+            var err = eval(xhr.responseText);
+            alert(err.Message);
+          },
+
+          success: function (data, status) {
+            // alert(data);
+
+            if (data == 1) {
+              $("#aeMdSuccess").modal("show");
+            }
+          },
+        });
+      }
     </script>
 
     <script
