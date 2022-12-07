@@ -43,8 +43,8 @@ while ($row = $result->fetch_assoc()) {
    
 }
 
-ob_end_clean();
-$pdf->Output('I', 'Registration_code.pdf');
+
+$pdf->Output('Registration_code.pdf','I');
 
 exit;
 
