@@ -73,7 +73,7 @@
       var email="";
       $(document).ready(function () {
         $("#loading").hide();
-        $("#ae_model_forgot").modal("show");
+       // $("#ae_model_forgot").modal("show");
 
         $("#forgot_password").click(function () {
           $("#ae_model_forgot").modal("show");
