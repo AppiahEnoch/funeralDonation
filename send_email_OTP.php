@@ -25,7 +25,7 @@ $messageBody="HI! \n Your OTP code: ".$code;
 try{
     
 
-    $stmt = $conn->prepare("INSERT INTO OTP (email,code) VALUES (?, ?)");
+    $stmt = $conn->prepare("INSERT INTO otp (email,code) VALUES (?, ?)");
     $stmt->bind_param("ss", $receiver, $code);
     
      $stmt->execute();
