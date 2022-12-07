@@ -350,7 +350,7 @@
     <script>
       function validateLogin() {
 
-        alert(username+" :"+password)
+       // alert(username+" :"+password)
         $("#loading").show();
         $.ajax({
           type: "post",

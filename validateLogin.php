@@ -123,9 +123,7 @@ function inputsAreCorrect( $arrayOfAllNames) {
   
 // prepare and bind
 
-session_start();
-$_SESSION["USER"]=$n;
-$_SESSION["CONTACT"]=$c;
+
 
 
   $stmt = $conn->prepare("SELECT * FROM _user WHERE 
@@ -141,6 +139,10 @@ $_SESSION["CONTACT"]=$c;
        $p= $row['password'];
        $c= $row['mobile'];
        $level= $row['level'];
+
+       session_start();
+$_SESSION["USER"]=$n;
+$_SESSION["CONTACT"]=$c;
   
      echo $level;
       exit();

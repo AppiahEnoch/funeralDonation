@@ -85,8 +85,8 @@ function inputsAreCorrect( $arrayOfAllNames) {
 
 
 session_start();
-$_SESSION["responsible"]="0549822203";
-  $person=$_SESSION["responsible"];
+//$_SESSION["responsible"]="0549822203";
+  $person=$_SESSION["CONTACT"];
   
 // prepare and bind
 try{
