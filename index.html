@@ -349,6 +349,8 @@
 
     <script>
       function validateLogin() {
+
+        alert(username+" :"+password)
         $("#loading").show();
         $.ajax({
           type: "post",
@@ -366,6 +368,10 @@
 
           success: function (data, status) {
             $("#loading").hide();
+
+          //  alert(data)
+
+
 
             if (data == 0) {
               aeTitle = "INVALID LOGIN ATTEMPT";
