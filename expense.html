@@ -77,7 +77,48 @@
     </style>
 
     <script>
-      $(document).ready(function () {});
+               var amount="";
+               var description="";
+      $(document).ready(function () {
+
+        $("#tf_amount").keyup(function(){
+          amount=$("#tf_amount").val();
+       
+          if(!(isNumber(amount))){
+            $("#tf_amount").val('');
+            return;
+          }
+        })
+
+
+        $("#bt_add").click(function(){
+          amount=$("#tf_amount").val();
+          description=$("#tf_description").val();
+
+          if(aeEmpty(amount)){
+            aeTitle = "ENTER AMOUNT";
+            aeBody = "PLEASE ENTER AMOUNT (GHS)";
+            $("#aeAlertTitle").text(aeTitle);
+            $("#aeAlertBody").text(aeBody);
+            $("#aeAlert").modal("show");
+
+            return;
+          }
+          else if(aeEmpty(description)){
+            aeTitle = "ENTER DESCRIPTION";
+            aeBody = "DESCRIBE THE KING OF EXPENSE BEING RECORDED.";
+            $("#aeAlertTitle").text(aeTitle);
+            $("#aeAlertBody").text(aeBody);
+            $("#aeAlert").modal("show");
+
+          }
+          
+
+
+        })
+
+
+      });
     </script>
   </head>
   <body>
@@ -106,7 +147,7 @@
             <input
               required
               type="text"
-              id="donarName"
+              id="tf_amount"
               class="form-control"
               placeholder="Amount (GHS)"
               style="font-weight: bold; color: black; background-color: white"
@@ -121,7 +162,7 @@
                 required
                 class="form-control"
                 placeholder=" Description of expense"
-                id="description"
+                id="tf_description"
                 style="height: 8rem; color: black"
               ></textarea>
               <label style="color: black" for="description"
@@ -132,7 +173,7 @@
           <!--end  input -->
 
           <div class="form-outline mb-2">
-            <button style="font-weight: bold" class="btn-primary w-100">
+            <button id="bt_add" style="font-weight: bold" class="btn-primary w-100">
               Add Expense
             </button>
           </div>
@@ -140,7 +181,7 @@
 
           <h5>
             Total Expenses
-            <span style="font-size: 5r3m"> &nbsp; 0 &nbsp; GHS</span>
+            <span style="font-size: 5r3m"> <span style="font-style:italic  ; font-size: small;" >GHS</span>&nbsp; <span id="span_total"></span></span>
           </h5>
 
           <!-- 2 column grid layout for inline styling -->
@@ -153,6 +194,80 @@
         </form>
       </div>
     </div>
+
+
+    <!-- Modal HTML -->
+    <div id="aeAlert" class="modal fade" tabindex="-3">
+      <div class="modal-dialog" style="width: 20rem">
+        <div class="modal-content">
+          <div
+            style="background-color: blue; color: white"
+            class="modal-header"
+          >
+            <h5 id="aeAlertTitle" class="modal-title">*****</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div style="background-color: white; color: black" class="modal-body">
+            <h6 id="aeAlertBody">**********</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- END MODAL -->
+
+
+    <script>
+           function validate_mobile_g(mobile) {
+        var phoneRe =/^[0-9]{10}$/ ;
+        var digits = mobile.replace(/\D/g, "");
+        return phoneRe.test(digits);
+      }
+
+
+      const validateEmail = (email) => {
+        return String(email)
+          .toLowerCase()
+          .match(
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          );
+      };
+
+
+
+function aeEmpty(e) {
+        var ee = "";
+        try {
+          ee = e.trim();
+        } catch (error) {
+          return true;
+        }
+        try {
+          switch (e) {
+            case "":
+            case 0:
+            case "0":
+            case null:
+            case false:
+            case undefined:
+              return true;
+            default:
+              return false;
+          }
+        } catch (error) {
+          return true;
+        }
+      }
+      
+
+function isNumber(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+    </script>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
