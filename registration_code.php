@@ -30,8 +30,15 @@ $pdf->SetFont('Arial', 'B', 12);
 while ($row = $result->fetch_assoc()) {
 
     $code= $row["code"];
+    $level= $row["level"];
+
+    $lv=" ";
+    if($level==1){
+        $lv="Expense user";
+    }
 
     $pdf->Cell(30,6,$code,1,0);
+    $pdf->Cell(30,6,$lv,1,0);
     $pdf->Ln();
    
 }

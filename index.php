@@ -121,6 +121,7 @@
         $("#bt_login").click(function () {
           username = $("#tf_username").val();
           password = $("#tf_password").val();
+       
 
           username = username.trim();
           password = password.trim();
@@ -348,6 +349,7 @@
 
     <script>
       function validateLogin() {
+        $("#loading").show();
         $.ajax({
           type: "post",
           data: {

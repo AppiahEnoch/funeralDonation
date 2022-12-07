@@ -11,7 +11,15 @@ try {
     $stmt->execute();
     $result = $stmt->get_result();
     while ($row = $result->fetch_assoc()) {
-        echo 1;
+        $level=$row["level"];
+
+        if($level==1){
+            echo 2;
+        }
+        else{
+            echo 1;
+        }
+       
     }
 
   

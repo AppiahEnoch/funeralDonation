@@ -101,13 +101,13 @@ function inputsAreCorrect( $arrayOfAllNames) {
   if ($row = $result->fetch_assoc()) {
        $n= $row['username'];
        $p= $row['password'];
+       $c= $row['mobile'];
    
- 
-
-      
 
        session_start();
-    $_SESSION["USER"]=$n;
+      $_SESSION["USER"]=$n;
+      $_SESSION["CONTACT"]=$c;
+
 
        echo 900;
     
@@ -136,14 +136,18 @@ function inputsAreCorrect( $arrayOfAllNames) {
   if ($row = $result->fetch_assoc()) {
        $n= $row['username'];
        $p= $row['password'];
+       $c= $row['mobile'];
+       $level= $row['level'];
   
        $correctInput=true;
 
 
        session_start();
-    $_SESSION["USER"]=$n;
+      $_SESSION["USER"]=$n;
+      $_SESSION["CONTACT"]=$c;
 
-    echo 1;
+
+     echo $level;
       exit();
      
   }

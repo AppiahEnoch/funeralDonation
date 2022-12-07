@@ -8,6 +8,7 @@ $v1="mobile";
 $v2="email";
 $v3="username";
 $v4="password";
+$v5="level";
 
 
 // declare all fields
@@ -15,11 +16,12 @@ $mobile= cleanInput( $_POST[$v1]);
 $email= cleanInput(   $_POST[$v2]);
 $username= cleanInput( $_POST[$v3]);
 $password= cleanInput( $_POST[$v4]);
+$level= cleanInput( $_POST[$v5]);
 
 
 
 // array to test post and set status of vital variables
-$arrayOfAllNames=[$v1,$v2,$v3,$v4];
+$arrayOfAllNames=[$v1,$v2,$v3,$v4,$v5];
 
 // function to clean user input
 function cleanInput($data){
@@ -92,8 +94,8 @@ function inputsAreCorrect( $arrayOfAllNames) {
 try{
 
 $stmt = $conn->prepare("INSERT INTO _user
- (username, `password`, mobile,email) VALUES (?, ?, ?,?)");
-$stmt->bind_param("ssss", $username, $password, $mobile,$email);
+ (username, `password`, mobile,email,`level`) VALUES (?, ?, ?,?,?)");
+$stmt->bind_param("sssss", $username, $password, $mobile,$email,$level);
  $stmt->execute();
 
  echo 1;

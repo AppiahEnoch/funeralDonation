@@ -1,18 +1,17 @@
 <?php
 require_once 'config.php';
 
-  
+$code=createRandomPassword();
+$level=$_POST["expense"];
 // prepare and bind
 try{
 
 
-
-
     
-  $code=createRandomPassword();
 
-  $stmt = $conn->prepare("INSERT INTO _code (code) VALUES (?)");
-  $stmt->bind_param("s", $code);
+
+  $stmt = $conn->prepare("INSERT INTO _code (code,`level`) VALUES (?,?)");
+  $stmt->bind_param("ss", $code,$level);
     $stmt->execute();
     $stmt->close();
     $conn->close();

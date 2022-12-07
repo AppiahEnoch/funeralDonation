@@ -72,11 +72,24 @@
         padding: 0;
       }
 
+      #bt_logout {
+        line-height: 12px;
+        width: 18px;
+        font-size: 18pt;
+        margin: 0.7rem;
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: .3rem;
+        color: blue;
+      }
+
  
     </style>
 
     <script>
       $(document).ready(function () {
+        $("#loading").hide();
         $("#bt_contact").click(function(){
 
           location.replace("admin_change_contact.html")
@@ -222,9 +235,25 @@
         });
 
         $("#bt_get_code").click(function () {
+          $("#loading").show();
+          var expense= $("#check_expense").is(':checked');
+          var num=0;
+          if(expense){
+            num=1;
+
+ 
+
+
+
+          }
+
+ 
+
           $.ajax({
             type: "post",
-            data: {},
+            data: {
+              expense:num
+            },
             cache: false,
             url: "insertCode.php",
             dataType: "text",
@@ -234,6 +263,7 @@
             },
 
             success: function (data, status) {
+              $("#loading").hide();
               //  alert(data);
               $("#tf_get_code").val(data);
             },
@@ -247,14 +277,28 @@
     </script>
   </head>
   <body>
-    <button type="button" class="btn btn-primary sticky-top">
-      System Report <i class="bi bi-filetype-pdf"></i>
-    </button>
+ <div  class="row sticky-top m-auto">
+  <div class="col">
+    <a class="btn btn-primary sticky-top" href="PDF.php?data" target="_blank">Donation <i class="bi bi-filetype-pdf"></i></a>
+    <a class="btn btn-primary sticky-top" href="PDF.php?data" target="_blank">Expense  <i class="bi bi-filetype-pdf"></i></a>
+
+    <a class="btn btn-primary sticky-top" href="PDF.php?data" target="_blank">Summary  <i class="bi bi-filetype-pdf"></i></a>
+
+    
+    <a id="bt_logout" href="index.php">
+      <i class="fa fa-sign-out" aria-hidden="true"></i>
+    </a>
+  </div>
+
+
+    
+ </div>
     <div class="h-100 d-flex align-items-center justify-content-center m-1">
       <div
         class="h-100 d-flex align-items-center justify-content-center m-auto"
       >
-        <form id="form">
+        <form  id="form">
+
           <div class="form-outline mb-2 text-center">
             <h3>
               Generate Code
@@ -271,8 +315,17 @@
               placeholder="Copy Code here!"
               style="font-weight: bold; color: black; background-color: white"
             />
+
+            <div class="form-check mb-0">
+              <input class="form-check-input" type="checkbox" value="" id="check_expense">
+              <label class="form-check-label" for="check_expense">
+                Expense
+              </label>
+            </div>
           </div>
           <!--end  input -->
+
+ 
 
           <div class="form-outline mb-2">
             <button
@@ -281,7 +334,7 @@
               style="font-weight: bold"
               class="btn-primary w-100"
             >
-              Get Code
+              Get Code <i id="loading" class="fa fa-spinner fa-spin fa-fw"></i>
             </button>
           </div>
 
@@ -314,11 +367,12 @@
               </div>
             </div>
           </div>
+          <hr>
 
-          <hr />
+      
 
-          <div style="background-color: transparent" class="form-outline p-1">
-            <h3>Reset Password</h3>
+          <div style="background-color: transparent" class="form-outline p-0">
+            <h3>Reset Password <i class="fa fa-unlock" aria-hidden="true"></i></h3>
             <div class="form-outline mb-2">
               <input
                 type="text"
@@ -365,7 +419,7 @@
 
 
             
-          <div class="form-outline mb-2">
+          <div class="form-outline mb-0">
             <div class="row">
               <div class="form-outline col-6">
                 <button
@@ -395,7 +449,8 @@
           
           </div>
           <!-- 2 column grid layout for inline styling -->
-          <div class="row mb-4">
+          <hr>
+          <div class="row mb-0">
             <div class="col d-flex justify-content-start">
               <!-- Checkbox -->
               <div class="form-check justify-content-lg-start">
