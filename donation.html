@@ -614,6 +614,9 @@
 
 
       function insertDonation() {
+        if(aeEmpty(donorMobile)){
+          donorMobile="0549822202";
+        }
         $.ajax({
           type: "post",
           data: {
