@@ -6,8 +6,8 @@ error_reporting(E_ERROR| E_PARSE);
 $memberList[0]="";
 $grandDonors=0;
 $grandTotalDonation=0;
-$subs=20;
-$subsWant=19;
+$subs=90;
+$subsWant=89;
 
 
 $sumTotal=0;
