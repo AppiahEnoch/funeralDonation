@@ -89,6 +89,8 @@
 
 
       $(document).ready(function () {
+
+        check_session();
         updateList();
         getTotalDonation();
 
@@ -638,7 +640,7 @@
             if(ck){
               if(donorMobile.length===10){
             
-               // sendSMS();
+                sendSMS();
               }
             }
         
@@ -689,6 +691,38 @@
       function editDon() {
         location.replace("editDonation.html");
       }
+
+
+
+      function check_session() {
+        $.ajax({
+          type: "post",
+          data: {
+      
+          },
+          cache: false,
+          url: "check_session.php",
+          dataType: "text",
+          error: function (xhr, status, error) {
+            var err = eval(xhr.responseText);
+            alert(err.Message);
+          },
+
+          success: function (data, status) {
+           
+
+             if(aeEmpty(data)){
+
+              location.href="index.php"
+              
+             }
+
+       
+          },
+        });
+      }
+      
+
     </script>
 
     <script

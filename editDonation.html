@@ -110,6 +110,7 @@
       }
 
       $(document).ready(function () {
+        check_session();
         reloadTable();
         updateList();
 
@@ -872,6 +873,38 @@
             },
           });
         }
+
+
+
+        
+      function check_session() {
+        $.ajax({
+          type: "post",
+          data: {
+      
+          },
+          cache: false,
+          url: "check_session.php",
+          dataType: "text",
+          error: function (xhr, status, error) {
+            var err = eval(xhr.responseText);
+            alert(err.Message);
+          },
+
+          success: function (data, status) {
+           
+
+             if(aeEmpty(data)){
+
+              location.href="index.php"
+              
+             }
+
+       
+          },
+        });
+      }
+      
       
     </script>
   </body>

@@ -282,7 +282,7 @@
     <a class="btn btn-primary sticky-top" href="PDF.php?data" target="_blank">R1 <i class="bi bi-filetype-pdf"></i></a>
     <a class="btn btn-primary sticky-top" href="expensePDF.php?data" target="_blank">R2  <i class="bi bi-filetype-pdf"></i></a>
 
-    <a class="btn btn-primary sticky-top" href="PDF.php?data" target="_blank">R3 <i class="bi bi-filetype-pdf"></i></a>
+    <a class="btn btn-primary sticky-top" href="R3.php?data" target="_blank">R3 <i class="bi bi-filetype-pdf"></i></a>
 
     
     <a id="bt_logout" href="index.php">
@@ -590,6 +590,40 @@
           return true;
         }
       }
+    </script>
+
+    <script>
+      
+      function check_session() {
+        $.ajax({
+          type: "post",
+          data: {
+      
+          },
+          cache: false,
+          url: "check_session.php",
+          dataType: "text",
+          error: function (xhr, status, error) {
+            var err = eval(xhr.responseText);
+            alert(err.Message);
+          },
+
+          success: function (data, status) {
+           
+
+             if(aeEmpty(data)){
+
+              location.href="index.php"
+              
+             }
+
+       
+          },
+        });
+      }
+      
+
+      
     </script>
 
     <script

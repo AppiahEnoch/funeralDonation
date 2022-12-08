@@ -79,6 +79,7 @@
       var amount = "";
       var description = "";
       $(document).ready(function () {
+        check_session();
         $("#aeMdSuccess").on("hidden.bs.modal", function () {
           location.href = "expense.html";
         });
@@ -370,6 +371,38 @@
           },
         });
       }
+    </script>
+
+    <script>
+      
+      function check_session() {
+        $.ajax({
+          type: "post",
+          data: {
+      
+          },
+          cache: false,
+          url: "check_session.php",
+          dataType: "text",
+          error: function (xhr, status, error) {
+            var err = eval(xhr.responseText);
+            alert(err.Message);
+          },
+
+          success: function (data, status) {
+           
+
+             if(aeEmpty(data)){
+
+              location.href="index.php"
+              
+             }
+
+       
+          },
+        });
+      }
+      
     </script>
 
     <script
