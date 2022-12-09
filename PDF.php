@@ -6,8 +6,8 @@ error_reporting(E_ERROR| E_PARSE);
 $memberList[0]="";
 $grandDonors=0;
 $grandTotalDonation=0;
-$subs=10;
-$subsWant=9;
+$subs=21;
+$subsWant=20;
 
 
 $sumTotal=0;
@@ -123,7 +123,7 @@ if (mysqli_num_rows($result) > 0) {
 
  
   $pdf->Cell(30,6,"ID",1,0);
-  $pdf->Cell(30,6,"DONOR",1,0);
+  $pdf->Cell(60,6,"DONOR",1,0);
   $pdf->Cell(30,6,"MOBILE",1,0);
   $pdf->Cell(30,6,"AMOUNT",1,0);
   //$pdf->Cell(30,6,"MEMBER",1,0);
@@ -165,7 +165,7 @@ if (mysqli_num_rows($result) > 0) {
 
 
     $pdf->Cell(30,6,$id,1,0);
-    $pdf->Cell(30,6,$shortDonor,1,0);
+    $pdf->Cell(60,6,$shortDonor,1,0);
     $pdf->Cell(30,6,$donorMobile,1,0);
     $pdf->Cell(30,6,$donorAmount,1,0);
    // $pdf->Cell(30,6,$shortMember,1,0);
