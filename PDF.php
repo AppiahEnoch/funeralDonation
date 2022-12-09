@@ -12,7 +12,6 @@ $subsWant=20;
 
 $sumTotal=0;
 $numberOfDonor=0;
-
 $ctr=1;
 
 
