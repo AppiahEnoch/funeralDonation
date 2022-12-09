@@ -9,7 +9,7 @@ try {
 
   $return_arr[] = null;
 
-  $sql = "SELECT * FROM donation ORDER BY familyMember ASC";
+  $sql = "SELECT * FROM donation ORDER BY donationDate DESC";
   $result = mysqli_query($conn, $sql);
   if(mysqli_num_rows($result) > 0) {
     // output data of each row
