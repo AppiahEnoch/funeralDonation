@@ -615,7 +615,7 @@
 
       function insertDonation() {
         if(aeEmpty(donorMobile)){
-          donorMobile="0549822202";
+         // donorMobile="0549822202";
         }
         $.ajax({
           type: "post",
@@ -637,7 +637,7 @@
           },
 
           success: function (data, status) {
-            //alert(data)
+            alert(data)
           
             var ck=$("#ckSMS").is(":checked");
 
