@@ -637,12 +637,12 @@
           },
 
           success: function (data, status) {
-            alert(data)
+           // alert(data)
           
             var ck=$("#ckSMS").is(":checked");
 
             if(ck){
-              if(donorMobile.length==10){
+              if(donorMobile.length===10){
             
                 sendSMS();
               }

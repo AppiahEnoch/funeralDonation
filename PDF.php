@@ -126,7 +126,7 @@ if (mysqli_num_rows($result) > 0) {
   $pdf->Cell(30,6,"DONOR",1,0);
   $pdf->Cell(30,6,"MOBILE",1,0);
   $pdf->Cell(30,6,"AMOUNT",1,0);
-  $pdf->Cell(30,6,"MEMBER",1,0);
+  //$pdf->Cell(30,6,"MEMBER",1,0);
   $pdf->Cell(45,6,"DATE",1,0);
   $pdf->Ln();
 
@@ -137,7 +137,7 @@ if (mysqli_num_rows($result) > 0) {
     $donorName=$row["donor"];
     $donorMobile=$row["donormobile"];
     $donorAmount=$row["amount"];
-    $familyMember=$row["familyMember"];
+   // $familyMember=$row["familyMember"];
     $donationDate=$row["donationDate"];
     $id=$row["id"];
 
@@ -168,7 +168,7 @@ if (mysqli_num_rows($result) > 0) {
     $pdf->Cell(30,6,$shortDonor,1,0);
     $pdf->Cell(30,6,$donorMobile,1,0);
     $pdf->Cell(30,6,$donorAmount,1,0);
-    $pdf->Cell(30,6,$shortMember,1,0);
+   // $pdf->Cell(30,6,$shortMember,1,0);
     $pdf->Cell(45,6,$donationDate,1,0);
     $pdf->Ln();
   }
