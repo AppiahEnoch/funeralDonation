@@ -574,14 +574,28 @@
       }
 
       function sendSMS() {
+
+       
    
-          var sms =
+          var sms1 =
             "We have received your Donation amount of GHS  " +
             donorAmount +
             " \n" +
             familyMember +
             " and \n" +
             " the Entire family are very glad for your Donation.";
+
+          var sms =
+            "We have received your Donation amount of GHS  " +
+            donorAmount +
+            " \n" +
+            "  the Entire family are very glad for your Donation.";
+
+
+
+            if(familyMember=="ENTIRE FAMILY"){
+              sms=sms1;
+            }
 
             $.ajax({
           type: "post",
